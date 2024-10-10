@@ -1,0 +1,260 @@
+<html><head><base href="https://healthy-recipes-catalog.websim.ai/"><title>Catálogo de Receitas Saudáveis</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f5f9;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+  }
+  .search-filter-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #3b82f6;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-input:focus {
+    border-color: #1e3a8a;
+  }
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .filter-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+  .filter-btn:hover {
+    background-color: #1e3a8a;
+    transform: translateY(-2px);
+  }
+  .filter-btn.active {
+    background-color: #1e3a8a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  .recipe-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  .recipe-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .recipe-info {
+    padding: 20px;
+  }
+  .recipe-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #1e3a8a;
+  }
+  .recipe-calories {
+    font-size: 0.9em;
+    color: #64748b;
+    margin-bottom: 15px;
+  }
+  .recipe-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .recipe-tag {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Catálogo de Receitas Saudáveis</h1>
+    <div class="search-filter-container">
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nome ou ingrediente...">
+      </div>
+      <div class="filter-options">
+        <button class="filter-btn" data-filter="vegetarian">Sem Carne</button>
+        <button class="filter-btn" data-filter="vegan">Veganas</button>
+        <button class="filter-btn" data-filter="lactose-free">Sem Lactose</button>
+        <button class="filter-btn" data-filter="sugar-free">Sem Açúcar</button>
+        <button class="filter-btn" data-filter="gluten-free">Sem Glúten</button>
+      </div>
+    </div>
+    <div class="recipe-grid" id="recipeGrid">
+      <!-- Receitas serão inseridas aqui dinamicamente -->
+    </div>
+  </div>
+
+  <script>
+    const recipes = [
+      {
+        id: 1,
+        name: "Salada de Quinoa com Legumes",
+        calories: 300,
+        image: "https://source.unsplash.com/random/800x600?quinoa+salad",
+        ingredients: ["quinoa", "tomate", "pepino", "cenoura", "azeite"],
+        tags: ["vegetarian", "vegan", "lactose-free", "sugar-free", "gluten-free"]
+      },
+      {
+        id: 2,
+        name: "Bowl de Açaí",
+        calories: 250,
+        image: "https://source.unsplash.com/random/800x600?acai+bowl",
+        ingredients: ["açaí", "banana", "granola", "mel"],
+        tags: ["vegetarian", "lactose-free"]
+      },
+      {
+        id: 3,
+        name: "Omelete de Claras com Espinafre",
+        calories: 180,
+        image: "https://source.unsplash.com/random/800x600?egg+white+spinach",
+        ingredients: ["claras de ovo", "espinafre", "tomate", "queijo cottage"],
+        tags: ["vegetarian", "sugar-free", "gluten-free"]
+      },
+      {
+        id: 4,
+        name: "Smoothie Verde",
+        calories: 150,
+        image: "https://source.unsplash.com/random/800x600?green+smoothie",
+        ingredients: ["espinafre", "banana", "abacate", "leite de amêndoas"],
+        tags: ["vegetarian", "vegan", "lactose-free", "sugar-free", "gluten-free"]
+      },
+      {
+        id: 5,
+        name: "Salmão Grelhado com Aspargos",
+        calories: 350,
+        image: "https://source.unsplash.com/random/800x600?grilled+salmon",
+        ingredients: ["salmão", "aspargos", "limão", "azeite"],
+        tags: ["lactose-free", "sugar-free", "gluten-free"]
+      },
+      {
+        id: 6,
+        name: "Wrap de Hummus e Vegetais",
+        calories: 280,
+        image: "https://source.unsplash.com/random/800x600?hummus+wrap",
+        ingredients: ["tortilha integral", "hummus", "alface", "tomate", "pepino"],
+        tags: ["vegetarian", "vegan", "lactose-free", "sugar-free"]
+      },
+      {
+        id: 7,
+        name: "Pudim de Chia",
+        calories: 200,
+        image: "https://source.unsplash.com/random/800x600?chia+pudding",
+        ingredients: ["sementes de chia", "leite de coco", "frutas vermelhas"],
+        tags: ["vegetarian", "vegan", "lactose-free", "gluten-free"]
+      },
+      {
+        id: 8,
+        name: "Tofu Grelhado com Legumes",
+        calories: 220,
+        image: "https://source.unsplash.com/random/800x600?grilled+tofu",
+        ingredients: ["tofu", "brócolis", "cenoura", "molho de soja"],
+        tags: ["vegetarian", "vegan", "lactose-free", "sugar-free", "gluten-free"]
+      }
+    ];
+
+    function createRecipeCard(recipe) {
+      const card = document.createElement('div');
+      card.className = 'recipe-card';
+      card.innerHTML = `
+        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
+        <div class="recipe-info">
+          <h2 class="recipe-name">${recipe.name}</h2>
+          <p class="recipe-calories">${recipe.calories} calorias</p>
+          <div class="recipe-tags">
+            ${recipe.tags.map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderRecipes(filteredRecipes) {
+      const grid = document.getElementById('recipeGrid');
+      grid.innerHTML = '';
+      filteredRecipes.forEach(recipe => {
+        const card = createRecipeCard(recipe);
+        grid.appendChild(card);
+      });
+    }
+
+    function filterRecipes() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active')).map(btn => btn.dataset.filter);
+
+      const filteredRecipes = recipes.filter(recipe => {
+        const nameMatch = recipe.name.toLowerCase().includes(searchTerm);
+        const ingredientMatch = recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchTerm));
+        const tagMatch = activeFilters.length === 0 || activeFilters.every(filter => recipe.tags.includes(filter));
+        return (nameMatch || ingredientMatch) && tagMatch;
+      });
+
+      renderRecipes(filteredRecipes);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRecipes(recipes);
+      
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', filterRecipes);
+
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.classList.toggle('active');
+          filterRecipes();
+        });
+      });
+    });
+  </script>
+</body></html>

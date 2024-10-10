@@ -1,0 +1,74 @@
+<html><head><title>Calculadora de IMC Interativa com Explicação</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles/imc-calculator.css">
+<link rel="stylesheet" href="styles/menu.css">
+</head>
+<body>
+  <div class="container"> 
+    
+    <div id="menu-container"></div>
+    
+    <h1>Calculadora de IMC</h1>
+    <div class="input-group">
+      <label for="weight">Peso (kg):</label>
+      <input type="number" id="weight" placeholder="Ex: 70" step="0.1">
+    </div>
+    <div class="input-group">
+      <label for="height">Altura (m):</label>
+      <input type="number" id="height" step="0.01" placeholder="Ex: 1.75">
+    </div>
+    <button onclick="calculateBMI()">Calcular IMC</button>
+    <div id="result"></div>
+    <table id="bmiTable" style="display: none;">
+      <tr>
+        <th>IMC</th>
+        <th>Classificação</th>
+      </tr>
+      <tr>
+        <td>Menor que 18.5</td>
+        <td>Abaixo do peso</td>
+      </tr>
+      <tr>
+        <td>18.5 - 24.9</td>
+        <td>Peso normal</td>
+      </tr>
+      <tr>
+        <td>25.0 - 29.9</td>
+        <td>Sobrepeso</td>
+      </tr>
+      <tr>
+        <td>30.0 - 34.9</td>
+        <td>Obesidade grau 1</td>
+      </tr>
+      <tr>
+        <td>35.0 - 39.9</td>
+        <td>Obesidade grau 2</td>
+      </tr>
+      <tr>
+        <td>Maior que 40.0</td>
+        <td>Obesidade grau 3</td>
+      </tr>
+    </table>
+    <div id="info" style="display:none;">
+      <h2>Mais que uma calculadora</h2>
+      <p>Esta não é apenas uma calculadora de IMC, mas uma ferramenta de transformação e saúde. Use-a como ponto de partida para uma jornada de bem-estar!</p>
+      <button onclick="window.location.href='plano-alimentacao.html'">Receber Plano Personalizado de Alimentação</button>
+    </div>
+    <div class="explanation">
+      <h3>O que é o IMC e como é calculado?</h3>
+      <p>O Índice de Massa Corporal (IMC) é uma medida internacional usada para calcular se uma pessoa está no peso ideal. O IMC é determinado pela divisão da massa do indivíduo pelo quadrado de sua altura, onde a massa está em quilogramas e a altura está em metros.</p>
+      <p>Fórmula: <span class="highlight">IMC = peso / (altura)²</span></p>
+      <p>Por exemplo, uma pessoa com 70 kg e 1,75 m de altura teria um IMC de 22,86.</p>
+      <p>O IMC é importante porque:</p>
+      <ul>
+        <li>Ajuda a identificar obesidade ou desnutrição em pacientes.</li>
+        <li>Pode indicar alguns problemas de saúde potenciais.</li>
+        <li>É usado como uma ferramenta de triagem por profissionais de saúde.</li>
+      </ul>
+      <p>No entanto, é importante notar que o IMC é apenas um indicador e não leva em conta a composição corporal (músculos vs. gordura). Atletas, por exemplo, podem ter um IMC alto devido à massa muscular, não à gordura.</p>
+    </div>
+  </div>
+  <script src="scripts/imc-calculator.js"></script>
+  <script src="scripts/menu.js"></script>
+</body></html>

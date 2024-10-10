@@ -1,0 +1,106 @@
+<html><head><title>Guia de Alimentação Saudável Personalizado</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles/plano-alimentacao.css">
+<link rel="stylesheet" href="styles/menu.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+      <div id="menu-container"></div>
+
+      <h1>Plano de Refeição Personalizado</h1>
+      <form id="nutritionForm">
+        <div class="input-group">
+          <label for="name">Nome:</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="input-group">
+          <label for="age">Idade:</label>
+          <input type="number" id="age" required>
+        </div>
+        <div class="input-group">
+          <label for="sex">Sexo:</label>
+          <select id="sex" required>
+            <option value="">Selecione</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="imc">IMC:</label>
+          <input type="number" id="imc" step="0.1" required>
+        </div>
+        <div class="input-group">
+          <label for="dietProfile">Perfil Alimentar:</label>
+          <select id="dietProfile" required>
+            <option value="">Selecione</option>
+            <option value="onivoro">Onívoro</option>
+            <option value="vegetariano">Vegetariano</option>
+            <option value="vegano">Vegano</option>
+            <option value="piscitariano">Piscitariano</option>
+            <option value="flexitariano">Flexitariano</option>
+            <option value="cetogenico">Cetogênico</option>
+            <option value="paleolitico">Paleolítico</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="goal">Objetivo:</label>
+          <select id="goal" required>
+            <option value="">Selecione</option>
+            <option value="perda">Perda de Peso</option>
+            <option value="ganho">Ganho de Massa Muscular</option>
+            <option value="manutencao">Manutenção de Peso</option>
+            <option value="saude">Melhoria da Saúde Geral</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="allergies">Alergias ou Restrições Alimentares:</label>
+          <textarea id="allergies" rows="3" placeholder="Liste quaisquer alergias ou restrições alimentares"></textarea>
+        </div>
+        <button type="submit">Gerar Plano Alimentar Personalizado</button>
+      </form>
+      <div id="result"></div>
+      <button id="downloadBtn">Baixar Plano em PDF</button>
+      <button onclick="window.location.href='plano-exercicio.html'" id="planoExercicioBtn">Criar Plano de Exercício Personalizado</button>
+  
+      <div class="guide-section">
+        <h2>Princípios de uma Alimentação Saudável</h2>
+        <ul>
+          <li><span class="highlight">Variedade:</span> Inclua diversos tipos de alimentos em sua dieta.</li>
+          <li><span class="highlight">Equilíbrio:</span> Consuma nutrientes em proporções adequadas.</li>
+          <li><span class="highlight">Moderação:</span> Evite excessos, mesmo de alimentos saudáveis.</li>
+          <li><span class="highlight">Cor:</span> Quanto mais colorido o prato, mais variado em nutrientes.</li>
+          <li><span class="highlight">Alimentos integrais:</span> Priorize alimentos menos processados.</li>
+        </ul>
+      </div>
+  
+      <div class="guide-section">
+        <h2>Dicas para uma Alimentação Balanceada</h2>
+        <ol>
+          <li><span class="highlight">Hidratação:</span> Beba água regularmente ao longo do dia.</li>
+          <li><span class="highlight">Fibras:</span> Consuma frutas, verduras, legumes e grãos integrais.</li>
+          <li><span class="highlight">Proteínas magras:</span> Inclua fontes de proteína em todas as refeições.</li>
+          <li><span class="highlight">Gorduras saudáveis:</span> Consuma azeite, abacate, nozes e sementes com moderação.</li>
+          <li><span class="highlight">Limite processados:</span> Evite alimentos ultra-processados e ricos em açúcar.</li>
+          <li><span class="highlight">Refeições regulares:</span> Faça 3 refeições principais e 2-3 lanches saudáveis.</li>
+          <li><span class="highlight">Mindful eating:</span> Coma devagar e preste atenção aos sinais de saciedade.</li>
+        </ol>
+      </div>
+  
+      <div class="guide-section">
+        <h2>Grupos Alimentares Essenciais</h2>
+        <ul>
+          <li><span class="highlight">Frutas e Vegetais:</span> Ricos em vitaminas, minerais e antioxidantes.</li>
+          <li><span class="highlight">Grãos Integrais:</span> Fornecem energia, fibras e vitaminas do complexo B.</li>
+          <li><span class="highlight">Proteínas:</span> Essenciais para construção e reparação de tecidos.</li>
+          <li><span class="highlight">Laticínios ou Alternativas:</span> Fontes de cálcio e vitamina D.</li>
+          <li><span class="highlight">Gorduras Saudáveis:</span> Importantes para absorção de vitaminas e saúde cerebral.</li>
+        </ul>
+      </div>
+    </div>
+
+  <script src="scripts/plano-alimentacao.js"></script>
+  <script src="scripts/menu.js"></script>
+</body></html>

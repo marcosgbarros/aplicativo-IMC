@@ -1,0 +1,278 @@
+<html><head><base href="https://health-education-hub.websim.ai/"><title>Hub de Educação em Saúde</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f5f9;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1, h2 {
+    text-align: center;
+    color: #1e3a8a;
+  }
+  h1 {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+  }
+  h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 2em;
+  }
+  .search-filter-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #3b82f6;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-input:focus {
+    border-color: #1e3a8a;
+  }
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .filter-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+  .filter-btn:hover {
+    background-color: #1e3a8a;
+    transform: translateY(-2px);
+  }
+  .filter-btn.active {
+    background-color: #1e3a8a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  .content-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  .content-thumbnail {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+    overflow: hidden;
+  }
+  .content-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .content-info {
+    padding: 20px;
+  }
+  .content-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #1e3a8a;
+  }
+  .content-description {
+    font-size: 0.9em;
+    color: #64748b;
+    margin-bottom: 15px;
+  }
+  .content-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .content-tag {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hub de Educação em Saúde</h1>
+    <div class="search-filter-container">
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por título ou tema...">
+      </div>
+      <div class="filter-options">
+        <button class="filter-btn" data-filter="exercicios">Exercícios Físicos</button>
+        <button class="filter-btn" data-filter="nutricao">Nutrição</button>
+        <button class="filter-btn" data-filter="mental">Saúde Mental</button>
+        <button class="filter-btn" data-filter="prevencao">Prevenção de Doenças</button>
+        <button class="filter-btn" data-filter="podcast">Podcast</button>
+      </div>
+    </div>
+
+    <h2>Vídeos Educativos</h2>
+    <div class="content-grid" id="videoGrid">
+      <!-- Vídeos serão inseridos aqui dinamicamente -->
+    </div>
+
+    <h2>Podcasts</h2>
+    <div class="content-grid" id="podcastGrid">
+      <!-- Podcasts serão inseridos aqui dinamicamente -->
+    </div>
+  </div>
+
+  <script>
+    const content = [
+      {
+        type: 'video',
+        title: 'Treino HIIT para Iniciantes',
+        description: 'Um treino intenso de 20 minutos para queimar calorias e melhorar o condicionamento.',
+        thumbnail: 'https://img.youtube.com/vi/ml6cT4AZdqI/0.jpg',
+        link: 'https://www.youtube.com/watch?v=ml6cT4AZdqI',
+        tags: ['exercicios']
+      },
+      {
+        type: 'video',
+        title: 'Guia Completo de Nutrição',
+        description: 'Aprenda os fundamentos de uma alimentação saudável e equilibrada.',
+        thumbnail: 'https://img.youtube.com/vi/HfgGiTbR8mY/0.jpg',
+        link: 'https://www.youtube.com/watch?v=HfgGiTbR8mY',
+        tags: ['nutricao']
+      },
+      {
+        type: 'video',
+        title: 'Meditação Guiada para Iniciantes',
+        description: '10 minutos de meditação para reduzir o estresse e melhorar o bem-estar.',
+        thumbnail: 'https://img.youtube.com/vi/vQj8NXO5Tn4/0.jpg',
+        link: 'https://www.youtube.com/watch?v=vQj8NXO5Tn4',
+        tags: ['mental']
+      },
+      {
+        type: 'video',
+        title: 'Prevenção de Doenças Cardiovasculares',
+        description: 'Dicas práticas para manter seu coração saudável.',
+        thumbnail: 'https://img.youtube.com/vi/PZONioClR3Y/0.jpg',
+        link: 'https://www.youtube.com/watch?v=PZONioClR3Y',
+        tags: ['prevencao']
+      },
+      {
+        type: 'podcast',
+        title: 'Saúde em Foco',
+        description: 'Discussões semanais sobre os mais diversos temas de saúde.',
+        thumbnail: 'https://source.unsplash.com/random/800x600?podcast+health',
+        link: 'https://open.spotify.com/show/5bSNYKr60VINBfCSkztQVP',
+        tags: ['podcast', 'prevencao', 'nutricao']
+      },
+      {
+        type: 'podcast',
+        title: 'Mente em Equilíbrio',
+        description: 'Conversas sobre saúde mental, bem-estar e autoconhecimento.',
+        thumbnail: 'https://source.unsplash.com/random/800x600?podcast+mind',
+        link: 'https://open.spotify.com/show/2pXm6LQTELQaoox9a1bxtc',
+        tags: ['podcast', 'mental']
+      }
+    ];
+
+    function createContentCard(item) {
+      const card = document.createElement('div');
+      card.className = 'content-card';
+      card.innerHTML = `
+        <div class="content-thumbnail">
+          <img src="${item.thumbnail}" alt="${item.title}">
+        </div>
+        <div class="content-info">
+          <h3 class="content-title">${item.title}</h3>
+          <p class="content-description">${item.description}</p>
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer">Assistir/Ouvir</a>
+          <div class="content-tags">
+            ${item.tags.map(tag => `<span class="content-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderContent(filteredContent) {
+      const videoGrid = document.getElementById('videoGrid');
+      const podcastGrid = document.getElementById('podcastGrid');
+      videoGrid.innerHTML = '';
+      podcastGrid.innerHTML = '';
+      
+      filteredContent.forEach(item => {
+        const card = createContentCard(item);
+        if (item.type === 'video') {
+          videoGrid.appendChild(card);
+        } else if (item.type === 'podcast') {
+          podcastGrid.appendChild(card);
+        }
+      });
+    }
+
+    function filterContent() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active')).map(btn => btn.dataset.filter);
+
+      const filteredContent = content.filter(item => {
+        const titleMatch = item.title.toLowerCase().includes(searchTerm);
+        const descriptionMatch = item.description.toLowerCase().includes(searchTerm);
+        const tagMatch = activeFilters.length === 0 || activeFilters.some(filter => item.tags.includes(filter));
+        return (titleMatch || descriptionMatch) && tagMatch;
+      });
+
+      renderContent(filteredContent);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderContent(content);
+      
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', filterContent);
+
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.classList.toggle('active');
+          filterContent();
+        });
+      });
+    });
+  </script>
+</body></html>

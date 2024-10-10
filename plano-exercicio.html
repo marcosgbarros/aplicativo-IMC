@@ -1,0 +1,76 @@
+<html><head><title>Guia de Exercícios Físicos Personalizados</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="styles/plano-exercicios.css">
+<link rel="stylesheet" href="styles/menu.css">
+</head>
+<body>
+  <div class="container">
+    <div id="menu-container"></div>
+
+    <h1>Guia de Exercícios Físicos Personalizados</h1>
+    <form id="exerciseForm">
+      <div class="input-group">
+        <label for="practiceExercise">Você pratica exercício físico atualmente?</label>
+        <select id="practiceExercise" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+      </div>
+      <div class="input-group" id="exerciseType">
+        <label for="currentExercise">Qual exercício você pratica?</label>
+        <input type="text" id="currentExercise" placeholder="Ex: corrida, natação, musculação">
+      </div>
+      <div class="input-group" id="desiredExercise">
+        <label for="wantedExercise">Qual exercício você gostaria de praticar?</label>
+        <input type="text" id="wantedExercise" placeholder="Ex: yoga, ciclismo, dança">
+      </div>
+      <div class="input-group">
+        <label for="frequency">Frequência semanal:</label>
+        <select id="frequency" required>
+          <option value="">Selecione</option>
+          <option value="1-2">1-2 vezes por semana</option>
+          <option value="3-4">3-4 vezes por semana</option>
+          <option value="5+">5 ou mais vezes por semana</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="limitations">Limitações ou lesões:</label>
+        <textarea id="limitations" rows="3" placeholder="Descreva quaisquer limitações físicas ou lesões que possua"></textarea>
+      </div>
+      <button type="submit">Gerar Plano de Exercícios Personalizado</button>
+    </form>
+    <div id="result"></div>
+    <button id="downloadBtn">Baixar Plano em PDF</button>
+
+    <div class="guide-section">
+      <h2>Benefícios dos Exercícios Físicos Regulares</h2>
+      <ul>
+        <li><span class="highlight">Saúde cardiovascular:</span> Melhora a saúde do coração e reduz o risco de doenças cardíacas.</li>
+        <li><span class="highlight">Controle de peso:</span> Ajuda a manter um peso saudável e aumenta o metabolismo.</li>
+        <li><span class="highlight">Fortalecimento muscular:</span> Aumenta a força e a massa muscular.</li>
+        <li><span class="highlight">Saúde mental:</span> Reduz o estresse, ansiedade e melhora o humor.</li>
+        <li><span class="highlight">Melhor sono:</span> Promove um sono mais profundo e reparador.</li>
+        <li><span class="highlight">Aumento da energia:</span> Melhora a disposição e os níveis de energia ao longo do dia.</li>
+      </ul>
+    </div>
+
+    <div class="guide-section">
+      <h2>Dicas para uma Rotina de Exercícios Eficaz</h2>
+      <ol>
+        <li><span class="highlight">Consistência é chave:</span> Mantenha uma rotina regular, mesmo que com exercícios leves.</li>
+        <li><span class="highlight">Aquecimento e alongamento:</span> Sempre comece com um aquecimento e termine com alongamentos.</li>
+        <li><span class="highlight">Variedade de exercícios:</span> Inclua uma mistura de exercícios cardiovasculares, força e flexibilidade.</li>
+        <li><span class="highlight">Progressão gradual:</span> Aumente a intensidade e duração dos exercícios gradualmente.</li>
+        <li><span class="highlight">Hidratação:</span> Beba água antes, durante e após os exercícios.</li>
+        <li><span class="highlight">Escute seu corpo:</span> Respeite seus limites e descanse quando necessário.</li>
+        <li><span class="highlight">Alimentação adequada:</span> Combine sua rotina de exercícios com uma alimentação balanceada.</li>
+      </ol>
+    </div>
+  </div>
+
+  <script src="scripts/plano-exercicios.js"></script>
+  <script src="scripts/menu.js"></script>
+</body></html>

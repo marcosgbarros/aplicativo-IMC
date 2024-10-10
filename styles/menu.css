@@ -1,0 +1,53 @@
+/* Estilos do Menu Sanduíche */
+.menu-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .menu-icon div {
+    width: 35px;
+    height: 5px;
+    background-color: #185a9d;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  
+  .sidebar {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    background-color: #185a9d;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border-radius: 20px 0 0 20px;
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #ffffff;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
