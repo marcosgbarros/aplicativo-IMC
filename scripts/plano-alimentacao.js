@@ -1,6 +1,36 @@
-document.getElementById('nutritionForm').addEventListener('submit', function(e) {
+// Carrega o menu quando a página estiver pronta
+document.addEventListener('DOMContentLoaded', function() {
+  const imcInput = document.getElementById('imc');
+  const storedBmi = localStorage.getItem('bmiValue');
+
+  if (storedBmi && imcInput) {
+      imcInput.value = storedBmi;
+  }
+});
+
+// Função para enviar o prompt para a API do ChatGPT
+async function sendToChatGPT(prompt, model) {
+  try {
+      const response = await fetch('http://localhost:3000/api/chatgpt', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt, model }),
+      });
+
+      const data = await response.json();
+      return data.response || 'Não foi possível gerar o plano alimentar no momento.';
+  } catch (error) {
+      console.error('Erro ao chamar a API do ChatGPT:', error);
+      return 'Erro ao gerar o plano alimentar.';
+  }
+}
+
+// Adiciona um evento de envio ao formulário
+document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  
+  // Obter os valores dos campos do formulário
   const name = document.getElementById('name').value;
   const age = document.getElementById('age').value;
   const sex = document.getElementById('sex').value;
@@ -9,28 +39,30 @@ document.getElementById('nutritionForm').addEventListener('submit', function(e) 
   const goal = document.getElementById('goal').value;
   const allergies = document.getElementById('allergies').value;
 
-  // Simulação de geração de plano alimentar personalizado
+  // Salvar os dados no localStorage
+  localStorage.setItem('name', name);
+  localStorage.setItem('age', age);
+  localStorage.setItem('sex', sex);
+  localStorage.setItem('imc', imc);
+  localStorage.setItem('goal', goal);
+
+  // Criar o prompt para o ChatGPT
+  const prompt = `Crie um plano alimentar em forma de tabela de 7 dias para uma pessoa com as seguintes características:
+  - Nome: ${name}
+  - Idade: ${age}
+  - Sexo: ${sex}
+  - IMC: ${imc}
+  - Perfil Alimentar: ${dietProfile}
+  - Objetivo: ${goal}
+  - Alergias/Restrições: ${allergies || 'Nenhuma informada'}`;
+
+  // Enviar o prompt para a API do ChatGPT e exibir a resposta
+  const model = "gpt-4o-mini"; // Ou outro agente específico
+  const chatGPTResponse = await sendToChatGPT(prompt, model);
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = `
-    <h3>Seu Plano Alimentar Personalizado</h3>
-    <p>Olá ${name}, com base nas informações fornecidas, aqui está um plano alimentar inicial para você:</p>
-    <ul>
-      <li>Idade: ${age} anos</li>
-      <li>Sexo: ${sex}</li>
-      <li>IMC: ${imc}</li>
-      <li>Perfil Alimentar: ${dietProfile}</li>
-      <li>Objetivo: ${goal}</li>
-      <li>Alergias/Restrições: ${allergies || 'Nenhuma informada'}</li>
-    </ul>
-    <h4>Sugestão de Plano Diário:</h4>
-    <ul>
-      <li>Café da manhã: Smoothie de frutas com proteína vegetal e sementes</li>
-      <li>Lanche da manhã: Mix de nuts e uma fruta</li>
-      <li>Almoço: Salada verde com grãos integrais e proteína magra</li>
-      <li>Lanche da tarde: Iogurte (ou alternativa vegetal) com granola sem açúcar</li>
-      <li>Jantar: Sopa de legumes com fonte de proteína</li>
-    </ul>
-    <p>Este é apenas um plano inicial. Recomendamos consultar um nutricionista para um plano mais detalhado e personalizado.</p>
+      <h3>Plano Alimentar Personalizado por ChatGPT</h3>
+      <p>${chatGPTResponse}</p>
   `;
   resultDiv.style.backgroundColor = '#e6f7ff';
   resultDiv.style.opacity = 1;
@@ -39,6 +71,7 @@ document.getElementById('nutritionForm').addEventListener('submit', function(e) 
   document.getElementById('planoExercicioBtn').style.display = 'block';
 });
 
+// Baixar Plano em PDF
 document.getElementById('downloadBtn').addEventListener('click', function() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();

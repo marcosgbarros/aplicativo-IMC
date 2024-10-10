@@ -1,3 +1,4 @@
+// formulario Plano de Exercícios
 document.getElementById('practiceExercise').addEventListener('change', function() {
     const exerciseType = document.getElementById('exerciseType');
     const desiredExercise = document.getElementById('desiredExercise');
@@ -13,6 +14,7 @@ document.getElementById('practiceExercise').addEventListener('change', function(
     }
   });
 
+  // formulario Plano de Exercícios
   document.getElementById('exerciseForm').addEventListener('submit', function(e) {
     e.preventDefault();
     

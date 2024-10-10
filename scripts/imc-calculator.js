@@ -1,3 +1,4 @@
+// calcula o IMC
 function calculateBMI() {
     const weight = parseFloat(document.getElementById('weight').value);
     const height = parseFloat(document.getElementById('height').value);
@@ -12,8 +13,11 @@ function calculateBMI() {
       bmiTable.style.display = 'none';
       return;
     }
-
+    //armazena o valor do IMC no localStorage
     const bmi = weight / (height * height);
+    localStorage.setItem('bmiValue', bmi.toFixed(2));
+
+    // Classificação do IMC
     let category, color;
 
     if (bmi < 18.5) {
@@ -36,6 +40,7 @@ function calculateBMI() {
       color = "#c0392b";
     }
 
+    //exibe o resultado
     resultDiv.innerHTML = `Seu IMC é <strong>${bmi.toFixed(2)}</strong><br>Classificação: ${category}`;
     resultDiv.style.backgroundColor = color;
     resultDiv.style.opacity = 1;
@@ -43,7 +48,7 @@ function calculateBMI() {
     bmiTable.style.display = 'table';
     infoDiv.style.display = 'block';
 
-    // Highlight the corresponding row in the table
+    // Cor de fundo das linhas da tabela de acordo de acordo
     const rows = bmiTable.getElementsByTagName('tr');
     for (let i = 1; i < rows.length; i++) {
       rows[i].style.backgroundColor = '';
