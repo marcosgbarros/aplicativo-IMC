@@ -157,4 +157,11 @@ function generateAndDownloadExercisePDF(plan) {
   });
 
   doc.save('plano_exercicios_personalizado.pdf');
+
+  // Exibir a mensagem de agradecimento após o download
+  const thankYouMessage = document.getElementById('thankYouMessage');
+  if (thankYouMessage) {
+    thankYouMessage.style.display = 'block';
+  }
 }
+

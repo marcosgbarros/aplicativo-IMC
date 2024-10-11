@@ -156,4 +156,10 @@ function generateAndDownloadPDF(plan) {
 
   // Salvar o PDF automaticamente
   doc.save('plano_alimentar_personalizado.pdf');
+
+   // Exibir a mensagem de agradecimento após o download
+   const thankYouMessage = document.getElementById('thankYouMessage');
+   if (thankYouMessage) {
+     thankYouMessage.style.display = 'block';
+   }
 }
