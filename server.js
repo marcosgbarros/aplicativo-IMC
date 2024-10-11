@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 3000;
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  organization: process.env.OPENAI_ORGANIZATION_ID, // Inclua esta linha se precisar do organizationId
 });
 
 
