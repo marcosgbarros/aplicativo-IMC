@@ -4,6 +4,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="styles/plano-exercicios.css">
 <link rel="stylesheet" href="styles/menu.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -42,9 +46,11 @@
       </div>
       <button type="submit">Gerar Plano de Exercícios Personalizado</button>
     </form>
-    <div id="result"></div>
-    <button id="downloadBtn">Baixar Plano em PDF</button>
-
+    <div id="loading" class="loading" style="display: none;">
+      <div class="hourglass"></div>
+      <p>Aguarde alguns segundos, seu plano está sendo criado...</p>
+    </div>
+    
     <div class="guide-section">
       <h2>Benefícios dos Exercícios Físicos Regulares</h2>
       <ul>

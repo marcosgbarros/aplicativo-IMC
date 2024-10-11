@@ -1,68 +1,160 @@
-// formulario Plano de Exercícios
+// Formulário Plano de Exercícios
 document.getElementById('practiceExercise').addEventListener('change', function() {
-    const exerciseType = document.getElementById('exerciseType');
-    const desiredExercise = document.getElementById('desiredExercise');
-    if (this.value === 'sim') {
-      exerciseType.style.display = 'block';
-      desiredExercise.style.display = 'none';
-    } else if (this.value === 'nao') {
-      exerciseType.style.display = 'none';
-      desiredExercise.style.display = 'block';
+  const exerciseType = document.getElementById('exerciseType');
+  const desiredExercise = document.getElementById('desiredExercise');
+  if (this.value === 'sim') {
+    exerciseType.style.display = 'block';
+    desiredExercise.style.display = 'none';
+  } else if (this.value === 'nao') {
+    exerciseType.style.display = 'none';
+    desiredExercise.style.display = 'block';
+  } else {
+    exerciseType.style.display = 'none';
+    desiredExercise.style.display = 'none';
+  }
+});
+
+// Função para enviar o prompt para a API do ChatGPT
+async function sendToChatGPT(prompt, model) {
+  try {
+    const response = await fetch('http://localhost:3000/api/chatgpt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt, model }),
+    });
+
+    const data = await response.json();
+    return data.response || 'Não foi possível gerar o plano de exercícios no momento.';
+  } catch (error) {
+    console.error('Erro ao chamar a API do ChatGPT:', error);
+    return 'Erro ao gerar o plano de exercícios.';
+  }
+}
+
+// Função para extrair e gerar o plano de exercícios a partir da resposta do ChatGPT
+function extractJsonFromResponse(response) {
+  try {
+    const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
+    if (jsonMatch && jsonMatch[1]) {
+      return JSON.parse(jsonMatch[1]);
     } else {
-      exerciseType.style.display = 'none';
-      desiredExercise.style.display = 'none';
+      return JSON.parse(response);
     }
+  } catch (error) {
+    console.error('Erro ao parsear o JSON:', error);
+    return null;
+  }
+}
+
+// Adiciona um evento de envio ao formulário
+document.getElementById('exerciseForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // Seleciona os elementos
+  const submitButton = e.target.querySelector('button[type="submit"]');
+  const loadingDiv = document.getElementById('loading');
+
+  // Verifique se os elementos são encontrados antes de acessar 'style'
+  if (submitButton && loadingDiv) {
+    // Esconde o botão de envio e mostra a ampulheta e mensagem de espera
+    submitButton.style.display = 'none';
+    loadingDiv.style.display = 'flex';
+  } else {
+    console.error('Um ou mais elementos (submitButton, loadingDiv) não foram encontrados.');
+    return;
+  }
+ 
+  // Recupera os valores do localStorage
+  const imc = localStorage.getItem('imc');
+  const age = localStorage.getItem('age');
+  const sex = localStorage.getItem('sex');
+  const goal = localStorage.getItem('goal');
+  const practiceExercise = document.getElementById('practiceExercise').value;
+  const currentExercise = document.getElementById('currentExercise').value;
+  const wantedExercise = document.getElementById('wantedExercise').value;
+  const frequency = document.getElementById('frequency').value;
+  const limitations = document.getElementById('limitations').value;
+
+  console.log('imc:', imc, 'age:', age, 'sex:', sex, 'goal:', goal);
+  console.log('practiceExercise:', practiceExercise, 'currentExercise:', currentExercise, 'wantedExercise:', wantedExercise, 'frequency:', frequency, 'limitations:', limitations);
+
+  // Construir o prompt para a geração de um plano de exercícios personalizado
+  const prompt = `Crie um plano de exercícios em formato JSON de 7 dias para uma pessoa com as seguintes características:
+  - Idade: ${age}
+  - Sexo: ${sex}
+  - IMC: ${imc}
+  - Prática de Exercício: ${practiceExercise}
+  - Exercício Atual: ${currentExercise}
+  - Exercício Desejado: ${wantedExercise}
+  - Frequência: ${frequency} vezes por semana
+  - Limitações: ${limitations || 'Nenhuma informada'}
+  - Objetivo: ${goal}
+
+  Responda apenas com o JSON no formato:
+  [
+    {
+      "day": "Segunda-feira",
+      "exercises": [
+        { "name": "Nome do Exercício", "description": "Descrição do exercício", "reps": "Repetições", "sets": "Séries" }
+      ]
+    }
+  ]`;
+
+  // Enviar o prompt para a API do ChatGPT e exibir a resposta
+  const model = "gpt-4o-mini";
+  const chatGPTResponse = await sendToChatGPT(prompt, model);
+
+  // Extrair o plano de exercícios em formato JSON
+  const plan = extractJsonFromResponse(chatGPTResponse);
+
+  // Verifica se o plano foi extraído corretamente
+  if (plan && Array.isArray(plan)) {
+    generateAndDownloadExercisePDF(plan);
+  } else {
+    console.error('Erro ao processar o plano de exercícios:', plan);
+  }
+
+  // Esconde a ampulheta e mostra o botão de envio novamente
+  loadingDiv.style.display = 'none';
+});
+
+// Função para gerar e baixar o PDF do plano de exercícios
+function generateAndDownloadExercisePDF(plan) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
   });
 
-  // formulario Plano de Exercícios
-  document.getElementById('exerciseForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const practiceExercise = document.getElementById('practiceExercise').value;
-    const currentExercise = document.getElementById('currentExercise').value;
-    const wantedExercise = document.getElementById('wantedExercise').value;
-    const frequency = document.getElementById('frequency').value;
-    const limitations = document.getElementById('limitations').value;
+  const rows = [];
+  plan.forEach(day => {
+    const dayTitle = day.day;
+    rows.push([
+      { content: dayTitle, colSpan: 4, styles: { fillColor: [220, 220, 220], fontStyle: 'bold', textColor: [0, 0, 0] } }
+    ]);
 
-    // Simulação de geração de plano de exercícios personalizado
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `
-      <h3>Seu Plano de Exercícios Personalizado</h3>
-      <p>Com base nas informações fornecidas, aqui está um plano de exercícios inicial para você:</p>
-      <ul>
-        <li>Status atual: ${practiceExercise === 'sim' ? `Pratica ${currentExercise}` : `Não pratica exercícios, mas gostaria de praticar ${wantedExercise}`}</li>
-        <li>Frequência desejada: ${frequency} vezes por semana</li>
-        <li>Considerações especiais: ${limitations || 'Nenhuma informada'}</li>
-      </ul>
-      <h4>Plano Semanal Sugerido:</h4>
-      <ul>
-        ${practiceExercise === 'sim' ? `
-          <li>Continue com ${currentExercise} ${frequency === '1-2' ? '1-2' : frequency === '3-4' ? '2-3' : '3-4'} vezes por semana</li>
-          <li>Adicione ${frequency === '1-2' ? '1' : '2'} sessão(ões) de treinamento de força</li>
-          <li>Inclua 1 sessão de yoga ou alongamento para melhorar a flexibilidade</li>
-        ` : `
-          <li>Comece com ${wantedExercise} ${frequency === '1-2' ? '1' : frequency === '3-4' ? '2' : '3'} vezes por semana</li>
-          <li>Adicione ${frequency === '1-2' ? '1' : '2'} sessão(ões) de caminhada ou natação para melhorar o condicionamento cardiovascular</li>
-          <li>Inclua 1 sessão de exercícios de força corporal básicos</li>
-        `}
-      </ul>
-      <p>Lembre-se de sempre consultar um profissional de saúde antes de iniciar qualquer novo programa de exercícios.</p>
-    `;
-    resultDiv.style.backgroundColor = '#e6f7ff';
-    resultDiv.style.opacity = 1;
-
-    document.getElementById('downloadBtn').style.display = 'block';
+    day.exercises.forEach(exercise => {
+      rows.push(['', exercise.name, exercise.description, `${exercise.sets} x ${exercise.reps}`]);
+    });
   });
 
-  document.getElementById('downloadBtn').addEventListener('click', function() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    const content = document.getElementById('result').innerText;
-    const splitContent = doc.splitTextToSize(content, 180);
-    
-    doc.text("Plano de Exercícios Personalizado", 20, 20);
-    doc.text(splitContent, 10, 40);
-    
-    doc.save("plano_exercicios_personalizado.pdf");
+  doc.setFontSize(10);
+  doc.autoTable({
+    head: [['', 'Exercício', 'Descrição', 'Séries x Repetições']],
+    body: rows,
+    startY: 20,
+    margin: { top: 20 },
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    headStyles: {
+      fillColor: [220, 220, 220],
+    },
   });
+
+  doc.save('plano_exercicios_personalizado.pdf');
+}

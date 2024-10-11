@@ -1,4 +1,4 @@
-// Carrega o menu quando a página estiver pronta
+// Carrega os dados da pagina anterior
 document.addEventListener('DOMContentLoaded', function() {
   const imcInput = document.getElementById('imc');
   const storedBmi = localStorage.getItem('bmiValue');
