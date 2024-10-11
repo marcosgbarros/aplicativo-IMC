@@ -4,92 +4,58 @@ document.addEventListener('DOMContentLoaded', function() {
   const storedBmi = localStorage.getItem('bmiValue');
 
   if (storedBmi && imcInput) {
-      imcInput.value = storedBmi;
+    imcInput.value = storedBmi;
   }
 });
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
   try {
-      const response = await fetch('http://localhost:3000/api/chatgpt', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ prompt, model }),
-      });
+    const response = await fetch('http://localhost:3000/api/chatgpt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt, model }),
+    });
 
-      const data = await response.json();
-      return data.response || 'Não foi possível gerar o plano alimentar no momento.';
+    const data = await response.json();
+    return data.response || 'Não foi possível gerar o plano alimentar no momento.';
   } catch (error) {
-      console.error('Erro ao chamar a API do ChatGPT:', error);
-      return 'Erro ao gerar o plano alimentar.';
+    console.error('Erro ao chamar a API do ChatGPT:', error);
+    return 'Erro ao gerar o plano alimentar.';
   }
 }
 
-// Função para extrair e gerar a tabela a partir da resposta do ChatGPT
+// Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
 function extractJsonFromResponse(response) {
   try {
-      // Usar uma expressão regular para encontrar a parte que é JSON entre backticks (```)
-      const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
+    // Usar uma expressão regular para encontrar a parte que é JSON entre backticks (```)
+    const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
 
-      if (jsonMatch && jsonMatch[1]) {
-          return JSON.parse(jsonMatch[1]);
-      } else {
-          // Tentar parsear diretamente se não houver delimitadores de JSON
-          return JSON.parse(response);
-      }
+    if (jsonMatch && jsonMatch[1]) {
+      return JSON.parse(jsonMatch[1]);
+    } else {
+      return JSON.parse(response);
+    }
   } catch (error) {
-      console.error('Erro ao parsear o JSON:', error);
-      return null;
+    console.error('Erro ao parsear o JSON:', error);
+    return null;
   }
 }
-
-function generatePlanFromResponse(response) {
-  const days = extractJsonFromResponse(response);
-
-  if (!Array.isArray(days)) {
-      console.error('O JSON extraído não é um array:', days);
-      return '<p>Erro ao processar a resposta. O JSON não está no formato esperado.</p>';
-  }
-
-  let content = `
-      <div class="plan-container">
-          <h3>Plano Alimentar Personalizado</h3>
-  `;
-
-  // Itera sobre cada dia e suas refeições
-  days.forEach(day => {
-      content += `
-          <div class="day-card">
-              <h4 class="day-title">${day.day}</h4>
-              <ul class="meals-list">
-      `;
-
-      day.meals.forEach(meal => {
-          content += `
-              <li class="meal-item">
-                  <strong>${meal.name}:</strong> ${meal.description}
-              </li>
-          `;
-      });
-
-      content += `
-              </ul>
-          </div>
-      `;
-  });
-
-  content += `
-      </div>
-  `;
-  return content;
-}
-
 
 // Adiciona um evento de envio ao formulário
 document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
   e.preventDefault();
+
+   // Seleciona os elementos
+   const submitButton = e.target.querySelector('button[type="submit"]');
+   const loadingDiv = document.getElementById('loading');
+   const planoExercicioBtn = document.getElementById('planoExercicioBtn');
+
+   // Esconde o botão de envio e mostra a ampulheta e mensagem de espera
+   submitButton.style.display = 'none';
+   loadingDiv.style.display = 'flex';
 
   // Obter os valores dos campos do formulário
   const name = document.getElementById('name').value;
@@ -133,68 +99,62 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
   // Enviar o prompt para a API do ChatGPT e exibir a resposta
   const model = "gpt-4o-mini";
   const chatGPTResponse = await sendToChatGPT(prompt, model);
-  const resultDiv = document.getElementById('result');
-  
-  // Gerar a tabela e exibir
-  // Gerar o conteúdo de forma mais organizada e exibir
-  const planHtml = generatePlanFromResponse(chatGPTResponse);
-  resultDiv.innerHTML = planHtml;
-  resultDiv.style.backgroundColor = '#e6f7ff';
-  resultDiv.style.opacity = 1;
 
-  document.getElementById('downloadBtn').style.display = 'block';
-  document.getElementById('planoExercicioBtn').style.display = 'block';
+  // Extrair o plano alimentar em formato JSON
+  const plan = extractJsonFromResponse(chatGPTResponse);
+
+  // Verifica se o plano foi extraído corretamente
+  if (plan && Array.isArray(plan)) {
+    // Gerar e baixar o PDF diretamente
+    generateAndDownloadPDF(plan);
+  } else {
+    console.error('Erro ao processar o plano alimentar:', plan);
+  }
+
+  // Esconde a ampulheta e mostra o botão de exercícios após a criação do plano
+  loadingDiv.style.display = 'none';
+  planoExercicioBtn.style.display = 'block';
 });
 
-// Baixar Plano em PDF
-document.getElementById('downloadBtn').addEventListener('click', function() {
+// Função para gerar e baixar o PDF
+function generateAndDownloadPDF(plan) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({
-      orientation: 'portrait', // Orientação retrato
-      unit: 'mm', // Unidades em milímetros
-      format: 'a4' // Formato A4
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
   });
 
-  // Obter o conteúdo da tabela em formato estruturado
-  const content = document.querySelectorAll('#result .day-card');
   const rows = [];
 
   // Iterar sobre cada dia e suas refeições para montar as linhas da tabela
-  content.forEach(dayCard => {
-      const dayTitle = dayCard.querySelector('.day-title').innerText;
-      const meals = dayCard.querySelectorAll('.meal-item');
+  plan.forEach(day => {
+    const dayTitle = day.day;
+    rows.push([
+      { content: dayTitle, colSpan: 3, styles: { fillColor: [220, 220, 220], fontStyle: 'bold', textColor: [0, 0, 0] } }
+    ]);
 
-      // Adicionar uma linha de destaque para o nome do dia
-      rows.push([
-          { content: dayTitle, colSpan: 3, styles: { fillColor: [220, 220, 220], fontStyle: 'bold', textColor: [0, 0, 0] } }
-      ]);
-
-      // Adicionar as refeições do dia
-      meals.forEach(meal => {
-          const mealName = meal.querySelector('strong').innerText.replace(':', '');
-          const mealDescription = meal.innerText.replace(`${mealName}: `, '');
-          rows.push([ '', mealName, mealDescription ]);
-      });
+    day.meals.forEach(meal => {
+      rows.push(['', meal.name, meal.description]);
+    });
   });
 
   // Configurar a tabela no PDF com `autoTable`
-  doc.setFontSize(10); // Define um tamanho de fonte menor para caber melhor na folha A4
+  doc.setFontSize(10);
   doc.autoTable({
-      head: [['', 'Refeição', 'Descrição']],
-      body: rows,
-      startY: 20, // Onde a tabela começa na página
-      margin: { top: 20 },
-      styles: {
-          fontSize: 8, // Ajuste do tamanho da fonte para a tabela
-          cellPadding: 2,
-      },
-      headStyles: {
-          fillColor: [220, 220, 220] // Cor do fundo do cabeçalho (cinza claro)
-      }
+    head: [['', 'Refeição', 'Descrição']],
+    body: rows,
+    startY: 20,
+    margin: { top: 20 },
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    headStyles: {
+      fillColor: [220, 220, 220]
+    }
   });
 
-  // Salvar o PDF
+  // Salvar o PDF automaticamente
   doc.save('plano_alimentar_personalizado.pdf');
-});
-
-
+}
