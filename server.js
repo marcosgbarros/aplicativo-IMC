@@ -14,18 +14,12 @@ const allowedOrigins = [
   'https://aplicativo-imc-git-main-aplicativo-imc.vercel.app'
 ];
 
-// Configuração do CORS
+// Configuração do CORS para permitir os domínios especificados
 app.use(cors({
-  origin: (origin, callback) => {
-    // Permite requisições sem 'origin' (como as feitas por ferramentas como Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Se precisar enviar cookies ou credenciais, use isso
 }));
 
 // Configuração para lidar com preflight requests (OPTIONS)
@@ -43,7 +37,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
 app.post('/api/chatgpt', async (req, res) => {
