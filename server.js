@@ -8,22 +8,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-// Configuração do CORS para permitir todas as origens
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+// Middleware para habilitar CORS para todas as rotas
+app.use(cors());
 
 // Middleware para lidar com JSON
 app.use(express.json());
 
+// Forçar cabeçalhos CORS para todas as requisições
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 // Tratamento de preflight requests (OPTIONS)
 app.options('/api/chatgpt', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.sendStatus(204);
 });
 
