@@ -10,8 +10,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'scripts')));
+app.use(express.static(path.join(__dirname, 'styles')));
 app.use(express.static(path.join(__dirname)));
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
 
 // Forçar cabeçalhos CORS para todas as requisições
