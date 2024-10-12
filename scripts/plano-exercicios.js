@@ -17,7 +17,7 @@ document.getElementById('practiceExercise').addEventListener('change', function(
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
   try {
-    const response = await fetch('https://localhost:3000/api/chatgpt', {
+    const response = await fetch('http://localhost:3000/api/chatgpt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
