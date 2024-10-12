@@ -21,6 +21,13 @@ const openai = new OpenAI({
 app.use(cors());
 app.use(express.json());
 
+// retirar
+app.use(cors({
+  origin: '*', // Ou '*' para permitir todas as origens
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Servir arquivos estáticos da raiz
 app.use(express.static(path.join(__dirname)));
 
@@ -44,6 +51,9 @@ app.post('/api/chatgpt', async (req, res) => {
     res.status(500).json({ error: 'Failed to generate response.' });
   }
 });
+
+//retirar
+app.options('*', cors());
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
