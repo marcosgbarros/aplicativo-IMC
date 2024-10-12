@@ -8,30 +8,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Domínios permitidos
-const allowedOrigins = [
-  'https://aplicativo-imc.vercel.app',
-  'https://aplicativo-imc-git-main-aplicativo-imc.vercel.app'
-];
-
-// Configuração do CORS para permitir os domínios especificados
+// Configuração do CORS para permitir todas as origens
 app.use(cors({
-  origin: allowedOrigins,
+  origin: '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Se precisar enviar cookies ou credenciais, use isso
 }));
 
-// Configuração para lidar com preflight requests (OPTIONS)
-app.options('/api/chatgpt', cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
