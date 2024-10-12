@@ -8,6 +8,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Ajuste o CORS para permitir requisições do domínio do seu front-end
+app.use(cors({
+  origin: 'https://aplicativo-imc.vercel.app', // substitua pelo seu domínio front-end
+  methods: ['GET', 'POST'], // métodos que você quer permitir
+  allowedHeaders: ['Content-Type', 'Authorization'], // headers permitidos
+}));
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
