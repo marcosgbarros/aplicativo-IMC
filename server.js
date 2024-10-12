@@ -14,7 +14,6 @@ app.use(express.static(path.join(__dirname)));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
 
-
 // Forçar cabeçalhos CORS para todas as requisições
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
