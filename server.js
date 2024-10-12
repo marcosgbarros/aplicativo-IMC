@@ -8,27 +8,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração do CORS para permitir todas as origens
 app.use(cors());
-
-// Middleware para lidar com JSON
 app.use(express.json());
-
-// Servir arquivos estáticos (HTML, CSS, JS) a partir da raiz
-app.use(express.static(path.join(__dirname)));
-
-// Forçar cabeçalhos CORS para todas as requisições
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
-
-// Tratamento de preflight requests (OPTIONS)
-app.options('*', (req, res) => {
-  res.sendStatus(204);
-});
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
