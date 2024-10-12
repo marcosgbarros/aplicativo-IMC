@@ -8,20 +8,29 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 // Configuração do CORS para permitir todas as origens
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// Middleware para lidar com JSON
+app.use(express.json());
+
+// Tratamento de preflight requests (OPTIONS)
+app.options('/api/chatgpt', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(204);
+});
 
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-//app.use(cors());
-app.use(express.json());
 
 app.post('/api/chatgpt', async (req, res) => {
   const { prompt, model } = req.body;
