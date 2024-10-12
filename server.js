@@ -8,11 +8,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware para habilitar CORS para todas as rotas
+// Configuração do CORS para permitir todas as origens
 app.use(cors());
 
 // Middleware para lidar com JSON
 app.use(express.json());
+
+// Servir arquivos estáticos (HTML, CSS, JS) a partir da raiz
+app.use(express.static(path.join(__dirname)));
 
 // Forçar cabeçalhos CORS para todas as requisições
 app.use((req, res, next) => {
@@ -23,10 +26,9 @@ app.use((req, res, next) => {
 });
 
 // Tratamento de preflight requests (OPTIONS)
-app.options('/api/chatgpt', (req, res) => {
+app.options('*', (req, res) => {
   res.sendStatus(204);
 });
-
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
