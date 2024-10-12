@@ -7,12 +7,14 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Domínios permitidos
 const allowedOrigins = [
   'https://aplicativo-imc.vercel.app',
-  'https://aplicativo-imc.vercel.app/api/chatgpt',
   'https://aplicativo-imc-git-main-aplicativo-imc.vercel.app'
 ];
 
+// Configuração do CORS
 app.use(cors({
   origin: (origin, callback) => {
     // Permite requisições sem 'origin' (como as feitas por ferramentas como Postman)
