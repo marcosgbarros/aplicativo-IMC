@@ -1,28 +1,19 @@
-import OpenAI from "openai";
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import path from "path";
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const path = require('path');
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const OpenAI = require('openai');
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-// Configuração do CORS para permitir todas as origens
 app.use(cors());
-
-// Middleware para lidar com JSON
 app.use(express.json());
-
-// Servir arquivos estáticos (HTML, CSS, JS) a partir da pasta raiz e da pasta "scripts"
 app.use(express.static(path.join(__dirname)));
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+
+
 
 // Forçar cabeçalhos CORS para todas as requisições
 app.use((req, res, next) => {
