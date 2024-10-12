@@ -2,6 +2,8 @@ import OpenAI from "openai";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
+
 
 dotenv.config();
 
