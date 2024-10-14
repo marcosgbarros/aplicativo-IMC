@@ -9,10 +9,7 @@ export default async function handler(req, res) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
 
-    if (!apiKey) {
-      console.error('API Key não encontrada.');
-      return res.status(500).json({ error: 'API Key não configurada.' });
-    }
+    console.log('API Key:', process.env.OPENAI_API_KEY ? 'Carregada' : 'Não encontrada');
 
     const { prompt, model } = req.body;
 
