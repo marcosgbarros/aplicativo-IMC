@@ -27,7 +27,7 @@ async function sendToChatGPT(prompt, model) {
     console.log('Resposta da API:', data);
 
     if (!data.response) {
-      throw new Error('Resposta vazia do servidor.');
+      throw new Error('Resposta do servidor não contém "response".');
     }
 
     return data.response;

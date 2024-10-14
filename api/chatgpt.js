@@ -32,15 +32,15 @@ export default async function handler(req, res) {
 
     const content = completion.choices?.[0]?.message?.content;
 
-    if (content) {
-      console.log('Resposta recebida do OpenAI:', content);
-      res.status(200).json({ response: content });
-    } else {
+    if (!content) {
       console.error('Resposta inválida do OpenAI:', completion);
-      res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
+      return res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
     }
+
+    console.log('Resposta recebida do OpenAI:', content);
+    res.status(200).json({ response: content });
   } catch (error) {
-    console.error('Erro ao chamar a API do OpenAI:', error);
+    console.error('Erro ao chamar a API do OpenAI:', error.message);
     res.status(500).json({ error: 'Erro ao processar o plano alimentar.' });
   }
 }
