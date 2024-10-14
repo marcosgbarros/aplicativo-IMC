@@ -11,17 +11,12 @@ export default async function handler(req, res) {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     const completion = await openai.chat.completions.create({
-      model: model || 'text-davinci-003',
+      model: model || 'chatgpt4o-mini',
       messages: [{ role: 'user', content: prompt }],
     });
 
     const content = completion.choices?.[0]?.message?.content;
-
-    if (content) {
-      res.status(200).json({ response: content });
-    } else {
-      throw new Error('Resposta inválida do OpenAI.');
-    }
+    res.status(200).json({ response: content });
   } catch (error) {
     console.error('Erro na API do OpenAI:', error);
     res.status(500).json({ error: 'Erro ao processar o plano alimentar.' });

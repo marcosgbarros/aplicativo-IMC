@@ -10,19 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
-  const apiKey = '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'; // Substituir pela sua chave de API
-
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('/api/chatgpt', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: model || 'chatgpt4o-mini',
-        messages: [{ role: 'user', content: prompt }],
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, model }),
     });
 
     if (!response.ok) {
@@ -32,39 +24,12 @@ async function sendToChatGPT(prompt, model) {
 
     const data = await response.json();
     console.log('Resposta da API:', data);
-    return data.choices[0].message.content || 'Resposta vazia.';
+    return data.response || 'Resposta vazia.';
   } catch (error) {
     console.error('Erro ao chamar a API do ChatGPT:', error);
     return 'Erro ao gerar o plano alimentar.';
   }
 }
-
-
-
-
-// Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
-function extractJsonFromResponse(response) {
-  try {
-    if (typeof response !== 'string') {
-      console.error('Resposta não é uma string:', response);
-      return null;
-    }
-
-    const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
-
-    if (jsonMatch && jsonMatch[1]) {
-      console.log('JSON encontrado nos backticks:', jsonMatch[1]);
-      return JSON.parse(jsonMatch[1]);
-    } else {
-      console.log('Tentando parse direto da resposta:', response);
-      return JSON.parse(response);
-    }
-  } catch (error) {
-    console.error('Erro ao parsear o JSON:', error, 'Resposta recebida:', response);
-    return null;
-  }
-}
-
 
 
 // Adiciona um evento de envio ao formulário
