@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
-  const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY; // Acessando a variável pública
+  const apiKey = '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'; // Substituir pela sua chave de API
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -20,7 +20,7 @@ async function sendToChatGPT(prompt, model) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: model || 'text-davinci-003',
+        model: model || 'chatgpt4o-mini',
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -38,6 +38,7 @@ async function sendToChatGPT(prompt, model) {
     return 'Erro ao gerar o plano alimentar.';
   }
 }
+
 
 
 
