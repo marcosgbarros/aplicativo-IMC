@@ -4,15 +4,20 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const { prompt, model } = req.body;
-      const completion = await new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-        .chat.completions.create({
-          model: model || 'gpt-4o-mini',
-          messages: [{ role: 'user', content: prompt }],
-        });
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-      res.status(200).json({ response: completion.choices[0].message.content });
+      const completion = await openai.chat.completions.create({
+        model: model || 'gpt-4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+      });
+
+      if (completion && completion.choices && completion.choices[0]) {
+        res.status(200).json({ response: completion.choices[0].message.content });
+      } else {
+        res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
+      }
     } catch (error) {
-      console.error('Erro:', error);
+      console.error('Erro ao chamar a API do OpenAI:', error);
       res.status(500).json({ error: 'Erro ao gerar o plano alimentar.' });
     }
   } else {

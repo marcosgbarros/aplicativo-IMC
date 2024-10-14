@@ -10,14 +10,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos
+
   try {
     const response = await fetch('/api/chatgpt', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt, model }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro: ${errorText}`);
+    }
 
     const data = await response.json();
     return data.response || 'Não foi possível gerar o plano alimentar no momento.';
