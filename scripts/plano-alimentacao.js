@@ -10,9 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
-
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos
+  const timeoutId = setTimeout(() => controller.abort(), 9000); // 9 segundos
 
   try {
     const response = await fetch('/api/chatgpt', {
@@ -23,7 +22,7 @@ async function sendToChatGPT(prompt, model) {
     });
 
     clearTimeout(timeoutId);
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Erro: ${errorText}`);
@@ -36,6 +35,7 @@ async function sendToChatGPT(prompt, model) {
     return 'Erro ao gerar o plano alimentar.';
   }
 }
+
 
 // Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
 function extractJsonFromResponse(response) {
