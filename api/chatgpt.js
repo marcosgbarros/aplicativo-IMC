@@ -1,5 +1,3 @@
-import OpenAI from 'openai';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -9,7 +7,10 @@ export default async function handler(req, res) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
 
-    console.log('API Key:', process.env.OPENAI_API_KEY ? 'Carregada' : 'Não encontrada');
+    if (!apiKey) {
+      console.error('API Key não encontrada.');
+      return res.status(500).json({ error: 'API Key não configurada.' });
+    }
 
     const { prompt, model } = req.body;
 
@@ -19,8 +20,6 @@ export default async function handler(req, res) {
     }
 
     const openai = new OpenAI({ apiKey });
-
-    console.log('Enviando prompt para OpenAI:', prompt);
 
     const completion = await openai.chat.completions.create({
       model: model || 'text-davinci-003',
@@ -34,7 +33,8 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
     }
 
-    console.log('Resposta recebida do OpenAI:', content);
+    console.log('Resposta do OpenAI:', content);
+    // Enviando como JSON para garantir a formatação correta
     res.status(200).json({ response: content });
   } catch (error) {
     console.error('Erro ao chamar a API do OpenAI:', error.message);

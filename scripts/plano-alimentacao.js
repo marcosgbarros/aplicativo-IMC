@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
   try {
+    console.log('Enviando requisição para /api/chatgpt...');
+    
     const response = await fetch('/api/chatgpt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -39,6 +41,8 @@ async function sendToChatGPT(prompt, model) {
 
 function extractJsonFromResponse(response) {
   try {
+    console.log('Tentando extrair JSON da resposta:', response);
+
     if (typeof response !== 'string') {
       console.error('Resposta não é uma string:', response);
       return null;
@@ -58,7 +62,6 @@ function extractJsonFromResponse(response) {
     return null;
   }
 }
-
 
 // Adiciona um evento de envio ao formulário
 document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
@@ -112,7 +115,7 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
   ]`;
 
   // Enviar o prompt para a API do ChatGPT e exibir a resposta
-  const model = "gpt-4o-mini";
+  const model = "text-davinci-003";
   const chatGPTResponse = await sendToChatGPT(prompt, model);
 
   // Extrair o plano alimentar em formato JSON
