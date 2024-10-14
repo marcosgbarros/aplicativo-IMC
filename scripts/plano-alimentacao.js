@@ -11,7 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 9000); // 9 segundos
+  const timeoutId = setTimeout(() => {
+    console.warn('Abortando a requisição por tempo limite.');
+    controller.abort();
+  }, 20000); // Timeout aumentado para 20 segundos
 
   try {
     const response = await fetch('/api/chatgpt', {
@@ -40,19 +43,28 @@ async function sendToChatGPT(prompt, model) {
 // Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
 function extractJsonFromResponse(response) {
   try {
-    // Usar uma expressão regular para encontrar a parte que é JSON entre backticks (```)
+    // Verificar se a resposta é uma string válida
+    if (typeof response !== 'string') {
+      console.error('Resposta não é uma string:', response);
+      return null;
+    }
+
+    // Usar expressão regular para encontrar JSON entre backticks (```)
     const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
 
     if (jsonMatch && jsonMatch[1]) {
+      console.log('JSON encontrado nos backticks:', jsonMatch[1]);
       return JSON.parse(jsonMatch[1]);
     } else {
+      // Tentar fazer o parse direto se não houver backticks
       return JSON.parse(response);
     }
   } catch (error) {
-    console.error('Erro ao parsear o JSON:', error);
+    console.error('Erro ao parsear o JSON:', error, 'Resposta recebida:', response);
     return null;
   }
 }
+
 
 // Adiciona um evento de envio ao formulário
 document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
