@@ -14,7 +14,7 @@ async function sendToChatGPT(prompt, model) {
   const timeoutId = setTimeout(() => {
     console.warn('Abortando a requisição por tempo limite.');
     controller.abort();
-  }, 10000); // Timeout aumentado para 10 segundos
+  }, 15000); // Aumentar timeout para 15 segundos
 
   try {
     const response = await fetch('/api/chatgpt', {
@@ -28,35 +28,39 @@ async function sendToChatGPT(prompt, model) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Erro: ${errorText}`);
+      throw new Error(`Erro na API: ${errorText}`);
     }
 
     const data = await response.json();
-    return data.response || 'Não foi possível gerar o plano alimentar no momento.';
+    return data.response || 'Resposta vazia da API.';
   } catch (error) {
-    console.error('Erro ao chamar a API do ChatGPT:', error);
-    return 'Erro ao gerar o plano alimentar.';
+    if (error.name === 'AbortError') {
+      console.error('A requisição foi abortada por timeout.');
+      return 'A API demorou muito para responder. Tente novamente.';
+    } else {
+      console.error('Erro ao chamar a API do ChatGPT:', error);
+      return 'Erro ao gerar o plano alimentar.';
+    }
   }
 }
+
 
 
 // Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
 function extractJsonFromResponse(response) {
   try {
-    // Verificar se a resposta é uma string válida
     if (typeof response !== 'string') {
       console.error('Resposta não é uma string:', response);
       return null;
     }
 
-    // Usar expressão regular para encontrar JSON entre backticks (```)
     const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
 
     if (jsonMatch && jsonMatch[1]) {
       console.log('JSON encontrado nos backticks:', jsonMatch[1]);
       return JSON.parse(jsonMatch[1]);
     } else {
-      // Tentar fazer o parse direto se não houver backticks
+      console.log('Tentando parse direto da resposta:', response);
       return JSON.parse(response);
     }
   } catch (error) {
@@ -64,6 +68,7 @@ function extractJsonFromResponse(response) {
     return null;
   }
 }
+
 
 
 // Adiciona um evento de envio ao formulário

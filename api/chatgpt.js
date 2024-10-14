@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
   try {
@@ -13,11 +13,12 @@ export default async function handler(req, res) {
     const completion = await openai.chat.completions.create({
       model: model || 'text-davinci-003',
       messages: [{ role: 'user', content: prompt }],
-      stream: true,
     });
 
-    if (completion?.choices?.[0]?.message?.content) {
-      res.status(200).json({ response: completion.choices[0].message.content });
+    const content = completion.choices?.[0]?.message?.content;
+
+    if (content) {
+      res.status(200).json({ response: content });
     } else {
       throw new Error('Resposta inválida do OpenAI.');
     }
