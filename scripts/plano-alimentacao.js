@@ -115,7 +115,7 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
   ]`;
 
   // Enviar o prompt para a API do ChatGPT e exibir a resposta
-  const model = "gpt-4o-mini";
+  const model = "gpt-3.5-turbo";
   const chatGPTResponse = await sendToChatGPT(prompt, model);
 
   // Extrair o plano alimentar em formato JSON
