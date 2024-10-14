@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      console.error('API Key não encontrada nas variáveis de ambiente');
-      return res.status(500).json({ error: 'API Key não configurada.' });
+      console.error('API Key não configurada.');
+      return res.status(500).json({ error: 'API Key não encontrada.' });
     }
 
     const { prompt, model } = req.body;
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
     const openai = new OpenAI({ apiKey });
 
-    console.log('Enviando prompt para OpenAI:', prompt);
+    console.log('Enviando prompt:', prompt);
 
     const completion = await openai.chat.completions.create({
       model: model || 'text-davinci-003',
@@ -29,15 +29,15 @@ export default async function handler(req, res) {
     });
 
     const content = completion.choices?.[0]?.message?.content;
-
-    if (content) {
-      res.status(200).json({ response: content });
-    } else {
-      console.error('Resposta inválida do OpenAI:', completion);
-      res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
+    
+    if (!content) {
+      console.error('Resposta inválida:', completion);
+      return res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
     }
+
+    res.status(200).json({ response: content });
   } catch (error) {
-    console.error('Erro na API do OpenAI:', error);
+    console.error('Erro ao chamar a API do OpenAI:', error);
     res.status(500).json({ error: 'Erro ao processar o plano alimentar.' });
   }
 }

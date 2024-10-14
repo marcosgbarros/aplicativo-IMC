@@ -33,6 +33,11 @@ async function sendToChatGPT(prompt, model) {
 
 function extractJsonFromResponse(response) {
   try {
+    if (typeof response !== 'string') {
+      console.error('Resposta não é uma string:', response);
+      return null;
+    }
+
     const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
 
     if (jsonMatch && jsonMatch[1]) {
@@ -47,7 +52,6 @@ function extractJsonFromResponse(response) {
     return null;
   }
 }
-
 
 
 // Adiciona um evento de envio ao formulário
