@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     const completion = await openai.chat.completions.create({
       model: model || 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
+      stream: true,
     });
 
     if (completion?.choices?.[0]?.message?.content) {
