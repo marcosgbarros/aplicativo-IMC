@@ -10,21 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => {
-    console.warn('Abortando a requisição por tempo limite.');
-    controller.abort();
-  }, 10000); // Aumentar timeout para 15 segundos
-
   try {
-    const response = await fetch('/api/chatgpt', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt, model }),
-      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`, // Passe a chave de API no cabeçalho
+      },
+      body: JSON.stringify({
+        model: model || 'chatgpt4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+      }),
     });
-
-    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -32,15 +29,11 @@ async function sendToChatGPT(prompt, model) {
     }
 
     const data = await response.json();
-    return data.response || 'Resposta vazia da API.';
+    console.log('Resposta da API:', data);
+    return data.choices[0].message.content || 'Resposta vazia.';
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.error('A requisição foi abortada por timeout.');
-      return 'A API demorou muito para responder. Tente novamente.';
-    } else {
-      console.error('Erro ao chamar a API do ChatGPT:', error);
-      return 'Erro ao gerar o plano alimentar.';
-    }
+    console.error('Erro ao chamar a API do ChatGPT:', error);
+    return 'Erro ao gerar o plano alimentar.';
   }
 }
 
