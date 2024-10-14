@@ -14,7 +14,7 @@ async function sendToChatGPT(prompt, model) {
   const timeoutId = setTimeout(() => {
     console.warn('Abortando a requisição por tempo limite.');
     controller.abort();
-  }, 15000); // Aumentar timeout para 15 segundos
+  }, 10000); // Aumentar timeout para 15 segundos
 
   try {
     const response = await fetch('/api/chatgpt', {
@@ -43,7 +43,6 @@ async function sendToChatGPT(prompt, model) {
     }
   }
 }
-
 
 
 // Função para extrair e gerar o plano alimentar a partir da resposta do ChatGPT
