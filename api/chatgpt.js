@@ -7,16 +7,35 @@ export default async function handler(req, res) {
   }
 
   try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error('API Key não encontrada nas variáveis de ambiente');
+      return res.status(500).json({ error: 'API Key não configurada.' });
+    }
+
     const { prompt, model } = req.body;
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+    if (!prompt) {
+      return res.status(400).json({ error: 'Prompt não fornecido.' });
+    }
+
+    const openai = new OpenAI({ apiKey });
+
+    console.log('Enviando prompt para OpenAI:', prompt);
 
     const completion = await openai.chat.completions.create({
-      model: model || 'chatgpt4o-mini',
+      model: model || 'text-davinci-003',
       messages: [{ role: 'user', content: prompt }],
     });
 
     const content = completion.choices?.[0]?.message?.content;
-    res.status(200).json({ response: content });
+
+    if (content) {
+      res.status(200).json({ response: content });
+    } else {
+      console.error('Resposta inválida do OpenAI:', completion);
+      res.status(500).json({ error: 'Resposta inválida do OpenAI.' });
+    }
   } catch (error) {
     console.error('Erro na API do OpenAI:', error);
     res.status(500).json({ error: 'Erro ao processar o plano alimentar.' });

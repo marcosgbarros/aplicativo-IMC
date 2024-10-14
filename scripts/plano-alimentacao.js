@@ -31,6 +31,24 @@ async function sendToChatGPT(prompt, model) {
   }
 }
 
+function extractJsonFromResponse(response) {
+  try {
+    const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
+
+    if (jsonMatch && jsonMatch[1]) {
+      console.log('JSON encontrado nos backticks:', jsonMatch[1]);
+      return JSON.parse(jsonMatch[1]);
+    } else {
+      console.log('Tentando parse direto da resposta:', response);
+      return JSON.parse(response);
+    }
+  } catch (error) {
+    console.error('Erro ao parsear o JSON:', error);
+    return null;
+  }
+}
+
+
 
 // Adiciona um evento de envio ao formulário
 document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
