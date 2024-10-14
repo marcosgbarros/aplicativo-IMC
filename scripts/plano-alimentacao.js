@@ -19,12 +19,18 @@ async function sendToChatGPT(prompt, model) {
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error('Erro na API:', errorText);
       throw new Error(`Erro na API: ${errorText}`);
     }
 
     const data = await response.json();
     console.log('Resposta da API:', data);
-    return data.response || 'Resposta vazia.';
+
+    if (!data.response) {
+      throw new Error('Resposta vazia do servidor.');
+    }
+
+    return data.response;
   } catch (error) {
     console.error('Erro ao chamar a API do ChatGPT:', error);
     return 'Erro ao gerar o plano alimentar.';

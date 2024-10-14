@@ -1,23 +1,6 @@
 import OpenAI from 'openai';
 
 export default async function handler(req, res) {
-  try {
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-      console.error('API Key não encontrada');
-      return res.status(500).json({ error: 'API Key não configurada.' });
-    }
-
-    res.status(200).json({ message: 'API Key carregada com sucesso!' });
-  } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({ error: 'Erro inesperado no backend.' });
-  }
-}
-
-/*
-export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
@@ -27,15 +10,14 @@ export default async function handler(req, res) {
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
-      console.error('API Key não encontrada nas variáveis de ambiente');
+      console.error('API Key não encontrada.');
       return res.status(500).json({ error: 'API Key não configurada.' });
     }
-
-    console.log('API Key carregada com sucesso:', apiKey ? 'SIM' : 'NÃO');
 
     const { prompt, model } = req.body;
 
     if (!prompt) {
+      console.error('Prompt não fornecido.');
       return res.status(400).json({ error: 'Prompt não fornecido.' });
     }
 
@@ -62,4 +44,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Erro ao processar o plano alimentar.' });
   }
 }
-*/
