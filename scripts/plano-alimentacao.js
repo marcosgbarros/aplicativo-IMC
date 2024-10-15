@@ -13,7 +13,7 @@ async function sendToChatGPT(prompt, model) {
   try {
     console.log('Enviando requisição para /api/chatgpt...');
     
-    const response = await fetch('/api/chatgpt', {
+    const response = await fetch('/.netlify/functions/chatgpt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt, model }),
