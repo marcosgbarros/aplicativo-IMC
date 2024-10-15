@@ -16,21 +16,32 @@ document.getElementById('practiceExercise').addEventListener('change', function(
 
 // Função para enviar o prompt para a API do ChatGPT
 async function sendToChatGPT(prompt, model) {
-  
   try {
-    const response = await fetch('/api/chatgpt', {
+    console.log('Enviando requisição para /api/chatgpt...');
+    
+    const response = await fetch('/.netlify/functions/chatgpt', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt, model }),
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Erro na API:', errorText);
+      throw new Error(`Erro na API: ${errorText}`);
+    }
+
     const data = await response.json();
-    return data.response || 'Não foi possível gerar o plano de exercícios no momento.';
+    console.log('Resposta da API:', data);
+
+    if (!data.response) {
+      throw new Error('Resposta do servidor não contém "response".');
+    }
+
+    return data.response;
   } catch (error) {
     console.error('Erro ao chamar a API do ChatGPT:', error);
-    return 'Erro ao gerar o plano de exercícios.';
+    return 'Erro ao gerar o plano alimentar.';
   }
 }
 
