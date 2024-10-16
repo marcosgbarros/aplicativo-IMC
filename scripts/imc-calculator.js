@@ -64,6 +64,7 @@ function calculateBMI() {
         rows[i].style.color = 'black';
       }
     }
+  }
 
     // Abrir o popup ao clicar no botão
   document.getElementById('openPopupButton').addEventListener('click', function () {
@@ -86,4 +87,4 @@ function calculateBMI() {
     window.location.href = 'plano-alimentacao.html';
   });
 
-  }
+  
