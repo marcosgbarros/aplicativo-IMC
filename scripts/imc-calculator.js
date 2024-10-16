@@ -16,9 +16,6 @@ function calculateBMI() {
   const bmi = weight / (height * height);
   localStorage.setItem('bmiValue', bmi.toFixed(2));
 
-  const useremail = document.getElementById('useremail').value;
-  localStorage.setItem('useremail', useremail);
-
   let category, color;
 
   if (bmi < 18.5) {
@@ -60,19 +57,3 @@ function calculateBMI() {
   }
 }
 
-document.getElementById('openPopupButton').addEventListener('click', function () {
-  document.getElementById('emailPopup').style.display = 'block';
-});
-
-document.getElementById('closePopup').addEventListener('click', function () {
-  document.getElementById('emailPopup').style.display = 'none';
-});
-
-document.getElementById('emailForm').addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const email = document.getElementById('emailInput').value;
-  localStorage.setItem('userEmail', email);
-
-  window.location.href = 'plano-alimentacao.html';
-});
