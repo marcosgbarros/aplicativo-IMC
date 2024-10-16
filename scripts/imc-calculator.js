@@ -57,23 +57,37 @@ function calculateBMI() {
   }
 }
 
-
-// Selecionando os elementos
+// Selecionando os elementos do popup
 const openPopupButton = document.getElementById('openPopupButton');
 const emailPopup = document.getElementById('emailPopup');
 const closePopupButton = document.getElementById('closePopup');
+const popupOverlay = document.getElementById('popupOverlay');
 const emailForm = document.getElementById('emailForm');
 
-// Função para abrir o popup
+// Função para centralizar o popup sobre o botão
+function centralizePopup() {
+  const buttonRect = openPopupButton.getBoundingClientRect();
+  const popupRect = emailPopup.getBoundingClientRect();
+
+  // Calcula a posição para centralizar o popup em relação ao botão
+  const top = buttonRect.top + window.scrollY - popupRect.height / 2 + buttonRect.height / 2;
+  const left = buttonRect.left + window.scrollX - popupRect.width / 2 + buttonRect.width / 2;
+
+  emailPopup.style.top = `${top}px`;
+  emailPopup.style.left = `${left}px`;
+}
+
+// Exibe o popup
 openPopupButton.addEventListener('click', function () {
+  centralizePopup(); // Centraliza o popup
   emailPopup.style.display = 'block';
-  popupOverlay.style.display = 'block'; // Exibe o fundo escuro
+  popupOverlay.style.display = 'block';
 });
 
-// Função para fechar o popup
+// Fechar o popup
 closePopupButton.addEventListener('click', function () {
   emailPopup.style.display = 'none';
-  popupOverlay.style.display = 'none'; // Esconde o fundo escuro
+  popupOverlay.style.display = 'none';
 });
 
 // Fechar o popup clicando fora dele
@@ -84,12 +98,10 @@ popupOverlay.addEventListener('click', function () {
 
 // Submeter o formulário e redirecionar
 emailForm.addEventListener('submit', function (event) {
-  event.preventDefault(); // Impede o recarregamento da página
+  event.preventDefault();
 
   const email = document.getElementById('emailInput').value;
-  localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
+  localStorage.setItem('userEmail', email);
 
-  // Redireciona para a página de plano-alimentacao.html
   window.location.href = 'plano-alimentacao.html';
 });
-
