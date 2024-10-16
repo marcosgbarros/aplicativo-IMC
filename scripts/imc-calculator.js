@@ -97,7 +97,12 @@ popupOverlay.addEventListener('click', function () {
 });
 
 // Submeter o formulário e redirecionar
-function submitForm() {
+emailForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // Impede o recarregamento da página
+
   const email = document.getElementById('emailInput').value;
   localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
-}
+
+  // Redireciona para a página de plano-alimentacao.html
+  window.location.assign('plano-alimentacao.html');
+});
