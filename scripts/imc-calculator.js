@@ -17,6 +17,11 @@ function calculateBMI() {
     const bmi = weight / (height * height);
     localStorage.setItem('bmiValue', bmi.toFixed(2));
 
+    //armazena o email em localStorage
+    const useremail = document.getElementById('useremail').value;
+    localStorage.setItem('useremail', email);
+
+
     // Classificação do IMC
     let category, color;
 
@@ -59,5 +64,26 @@ function calculateBMI() {
         rows[i].style.color = 'black';
       }
     }
+
+    // Abrir o popup ao clicar no botão
+  document.getElementById('openPopupButton').addEventListener('click', function () {
+    document.getElementById('emailPopup').style.display = 'block';
+  });
+
+  // Fechar o popup ao clicar no "X"
+  document.getElementById('closePopup').addEventListener('click', function () {
+    document.getElementById('emailPopup').style.display = 'none';
+  });
+
+  // Submeter o formulário e salvar o email numa variável
+  document.getElementById('emailForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Evita o recarregamento da página
+
+    const email = document.getElementById('emailInput').value;
+    localStorage.setItem('userEmail', email); // Salva o email no localStorage
+
+    // Redireciona para a página plano-alimentacao.html
+    window.location.href = 'plano-alimentacao.html';
+  });
 
   }
