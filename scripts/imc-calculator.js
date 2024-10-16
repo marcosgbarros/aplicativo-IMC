@@ -57,3 +57,23 @@ function calculateBMI() {
   }
 }
 
+const useremail = document.getElementById('useremail').value;
+localStorage.setItem('useremail', useremail);
+
+document.getElementById('openPopupButton').addEventListener('click', function () {
+  document.getElementById('emailPopup').style.display = 'block';
+});
+
+document.getElementById('closePopup').addEventListener('click', function () {
+  document.getElementById('emailPopup').style.display = 'none';
+});
+
+document.getElementById('emailForm').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const email = document.getElementById('emailInput').value;
+  localStorage.setItem('userEmail', email);
+
+  window.location.href = 'plano-alimentacao.html';
+});
+
