@@ -63,7 +63,7 @@
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: #43cea2;
+    background: #003366;
     color: white;
     font-size: 18px;
     cursor: pointer;
@@ -71,7 +71,7 @@
   }
   
   button:hover {
-    background: #3cb371;
+    background: #002244;
   }
   
   button:active {
