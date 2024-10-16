@@ -1,90 +1,78 @@
-// calcula o IMC
 function calculateBMI() {
-    const weight = parseFloat(document.getElementById('weight').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const resultDiv = document.getElementById('result');
-    const bmiTable = document.getElementById('bmiTable');
-    const infoDiv = document.getElementById('info');
+  const weight = parseFloat(document.getElementById('weight').value);
+  const height = parseFloat(document.getElementById('height').value);
+  const resultDiv = document.getElementById('result');
+  const bmiTable = document.getElementById('bmiTable');
+  const infoDiv = document.getElementById('info');
 
-    if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+  if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
       resultDiv.textContent = "Por favor, insira valores válidos.";
       resultDiv.style.backgroundColor = "#ff9999";
       resultDiv.style.opacity = 1;
       bmiTable.style.display = 'none';
       return;
-    }
-    //armazena o valor do IMC no localStorage
-    const bmi = weight / (height * height);
-    localStorage.setItem('bmiValue', bmi.toFixed(2));
-
-    //armazena o email em localStorage
-    const useremail = document.getElementById('useremail').value;
-    localStorage.setItem('useremail', email);
-
-
-    // Classificação do IMC
-    let category, color;
-
-    if (bmi < 18.5) {
-      category = "Abaixo do peso";
-      color = "#3498db";
-    } else if (bmi < 25) {
-      category = "Peso normal";
-      color = "#2ecc71";
-    } else if (bmi < 30) {
-      category = "Sobrepeso";
-      color = "#f1c40f";
-    } else if (bmi < 35) {
-      category = "Obesidade grau 1";
-      color = "#e67e22";
-    } else if (bmi < 40) {
-      category = "Obesidade grau 2";
-      color = "#e74c3c";
-    } else {
-      category = "Obesidade grau 3";
-      color = "#c0392b";
-    }
-
-    //exibe o resultado
-    resultDiv.innerHTML = `Seu IMC é <strong>${bmi.toFixed(2)}</strong><br>Classificação: ${category}`;
-    resultDiv.style.backgroundColor = color;
-    resultDiv.style.opacity = 1;
-    resultDiv.style.color = "white";
-    bmiTable.style.display = 'table';
-    infoDiv.style.display = 'block';
-
-    // Cor de fundo das linhas da tabela de acordo de acordo
-    const rows = bmiTable.getElementsByTagName('tr');
-    for (let i = 1; i < rows.length; i++) {
-      rows[i].style.backgroundColor = '';
-      if (rows[i].cells[1].textContent === category) {
-        rows[i].style.backgroundColor = color;
-        rows[i].style.color = 'white';
-      }else{
-        rows[i].style.color = 'black';
-      }
-    }
   }
 
-    // Abrir o popup ao clicar no botão
-  document.getElementById('openPopupButton').addEventListener('click', function () {
-    document.getElementById('emailPopup').style.display = 'block';
-  });
+  const bmi = weight / (height * height);
+  localStorage.setItem('bmiValue', bmi.toFixed(2));
 
-  // Fechar o popup ao clicar no "X"
-  document.getElementById('closePopup').addEventListener('click', function () {
-    document.getElementById('emailPopup').style.display = 'none';
-  });
+  const useremail = document.getElementById('useremail').value;
+  localStorage.setItem('useremail', useremail);
 
-  // Submeter o formulário e salvar o email numa variável
-  document.getElementById('emailForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita o recarregamento da página
+  let category, color;
 
-    const email = document.getElementById('emailInput').value;
-    localStorage.setItem('userEmail', email); // Salva o email no localStorage
+  if (bmi < 18.5) {
+      category = "Abaixo do peso";
+      color = "#3498db";
+  } else if (bmi < 25) {
+      category = "Peso normal";
+      color = "#2ecc71";
+  } else if (bmi < 30) {
+      category = "Sobrepeso";
+      color = "#f1c40f";
+  } else if (bmi < 35) {
+      category = "Obesidade grau 1";
+      color = "#e67e22";
+  } else if (bmi < 40) {
+      category = "Obesidade grau 2";
+      color = "#e74c3c";
+  } else {
+      category = "Obesidade grau 3";
+      color = "#c0392b";
+  }
 
-    // Redireciona para a página plano-alimentacao.html
-    window.location.href = 'plano-alimentacao.html';
-  });
+  resultDiv.innerHTML = `Seu IMC é <strong>${bmi.toFixed(2)}</strong><br>Classificação: ${category}`;
+  resultDiv.style.backgroundColor = color;
+  resultDiv.style.opacity = 1;
+  resultDiv.style.color = "white";
+  bmiTable.style.display = 'table';
+  infoDiv.style.display = 'block';
 
-  
+  const rows = bmiTable.getElementsByTagName('tr');
+  for (let i = 1; i < rows.length; i++) {
+      rows[i].style.backgroundColor = '';
+      if (rows[i].cells[1].textContent === category) {
+          rows[i].style.backgroundColor = color;
+          rows[i].style.color = 'white';
+      } else {
+          rows[i].style.color = 'black';
+      }
+  }
+}
+
+document.getElementById('openPopupButton').addEventListener('click', function () {
+  document.getElementById('emailPopup').style.display = 'block';
+});
+
+document.getElementById('closePopup').addEventListener('click', function () {
+  document.getElementById('emailPopup').style.display = 'none';
+});
+
+document.getElementById('emailForm').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const email = document.getElementById('emailInput').value;
+  localStorage.setItem('userEmail', email);
+
+  window.location.href = 'plano-alimentacao.html';
+});
