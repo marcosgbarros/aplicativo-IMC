@@ -57,7 +57,7 @@ function calculateBMI() {
   }
 }
 
-// Selecionando os elementos do pop
+// Selecionando os elementos do popup
 const openPopupButton = document.getElementById('openPopupButton');
 const emailPopup = document.getElementById('emailPopup');
 const closePopupButton = document.getElementById('closePopup');
@@ -80,20 +80,17 @@ function centralizePopup() {
 // Exibe o popup
 openPopupButton.addEventListener('click', function () {
   centralizePopup(); // Centraliza o popup
-  emailPopup.style.display = 'block';
-  popupOverlay.style.display = 'block';
+  emailPopup.style.display = 'flex';
 });
 
 // Fechar o popup
 closePopupButton.addEventListener('click', function () {
   emailPopup.style.display = 'none';
-  popupOverlay.style.display = 'none';
 });
 
 // Fechar o popup clicando fora dele
 popupOverlay.addEventListener('click', function () {
   emailPopup.style.display = 'none';
-  popupOverlay.style.display = 'none';
 });
 
 // Submeter o formulário e redirecionar
