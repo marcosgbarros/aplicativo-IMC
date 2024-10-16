@@ -57,7 +57,7 @@ function calculateBMI() {
   }
 }
 
-// Selecionando os elementos do popup
+// Selecionando os elementos do pop
 const openPopupButton = document.getElementById('openPopupButton');
 const emailPopup = document.getElementById('emailPopup');
 const closePopupButton = document.getElementById('closePopup');
