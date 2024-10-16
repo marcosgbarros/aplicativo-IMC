@@ -57,23 +57,39 @@ function calculateBMI() {
   }
 }
 
-const useremail = document.getElementById('useremail').value;
-localStorage.setItem('useremail', useremail);
 
-document.getElementById('openPopupButton').addEventListener('click', function () {
-  document.getElementById('emailPopup').style.display = 'block';
+// Selecionando os elementos
+const openPopupButton = document.getElementById('openPopupButton');
+const emailPopup = document.getElementById('emailPopup');
+const closePopupButton = document.getElementById('closePopup');
+const emailForm = document.getElementById('emailForm');
+
+// Função para abrir o popup
+openPopupButton.addEventListener('click', function () {
+  emailPopup.style.display = 'block';
+  popupOverlay.style.display = 'block'; // Exibe o fundo escuro
 });
 
-document.getElementById('closePopup').addEventListener('click', function () {
-  document.getElementById('emailPopup').style.display = 'none';
+// Função para fechar o popup
+closePopupButton.addEventListener('click', function () {
+  emailPopup.style.display = 'none';
+  popupOverlay.style.display = 'none'; // Esconde o fundo escuro
 });
 
-document.getElementById('emailForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+// Fechar o popup clicando fora dele
+popupOverlay.addEventListener('click', function () {
+  emailPopup.style.display = 'none';
+  popupOverlay.style.display = 'none';
+});
+
+// Submeter o formulário e redirecionar
+emailForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // Impede o recarregamento da página
 
   const email = document.getElementById('emailInput').value;
-  localStorage.setItem('userEmail', email);
+  localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
 
+  // Redireciona para a página de plano-alimentacao.html
   window.location.href = 'plano-alimentacao.html';
 });
 
