@@ -63,13 +63,15 @@ const emailPopup = document.getElementById('emailPopup');
 const closePopupButton = document.getElementById('closePopup');
 const popupOverlay = document.getElementById('popupOverlay');
 const emailForm = document.getElementById('emailForm');
+const emailInput = document.getElementById('emailInput');
 
 // Função para centralizar o popup sobre o botão
 function centralizePopup() {
+  if (!openPopupButton || !emailPopup) return; // Verifica se os elementos existem
+
   const buttonRect = openPopupButton.getBoundingClientRect();
   const popupRect = emailPopup.getBoundingClientRect();
 
-  // Calcula a posição para centralizar o popup em relação ao botão
   const top = buttonRect.top + window.scrollY - popupRect.height / 2 + buttonRect.height / 2;
   const left = buttonRect.left + window.scrollX - popupRect.width / 2 + buttonRect.width / 2;
 
@@ -78,28 +80,37 @@ function centralizePopup() {
 }
 
 // Exibe o popup
-openPopupButton.addEventListener('click', function () {
+openPopupButton?.addEventListener('click', () => {
   centralizePopup(); // Centraliza o popup
   emailPopup.style.display = 'flex';
 });
 
-// Fechar o popup
-closePopupButton.addEventListener('click', function () {
+// Fecha o popup ao clicar no botão de fechar
+closePopupButton?.addEventListener('click', () => {
   emailPopup.style.display = 'none';
 });
 
-// Fechar o popup clicando fora dele
-popupOverlay.addEventListener('click', function () {
-  emailPopup.style.display = 'none';
+// Fecha o popup ao clicar fora do conteúdo
+popupOverlay?.addEventListener('click', (event) => {
+  if (event.target === popupOverlay) {
+    emailPopup.style.display = 'none';
+  }
+});
+
+// Recalcula a posição do popup ao redimensionar a janela
+window.addEventListener('resize', () => {
+  if (emailPopup.style.display === 'flex') {
+    centralizePopup();
+  }
 });
 
 // Submeter o formulário e redirecionar
-emailForm.addEventListener('submit', function (event) {
+emailForm?.addEventListener('submit', (event) => {
   event.preventDefault(); // Impede o recarregamento da página
 
-  const email = document.getElementById('emailInput').value;
-  localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
-
-  // Redireciona para a página de plano-alimentacao.html
-  window.location.assign('plano-alimentacao.html');
+  const email = emailInput?.value;
+  if (email) {
+    localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
+    window.location.assign('plano-alimentacao.html'); // Redireciona para a página desejada
+  }
 });

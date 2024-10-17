@@ -1,66 +1,64 @@
 /* Estilos para o popup de e-mail */
 .email-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centraliza horizontal e verticalmente */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
-    z-index: 1000;
-    width: 100%; 
-    height: 100%; 
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Conteúdo do popup */
-  .email-popup-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    position: relative; /* Para posicionar o botão de fechar */
-  }
-  
-  .email-popup h2 {
-    color: #006d77;
-    margin-bottom: 20px;
-  }
-  
-  .email-form input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    font-size: 1em;
-    border: 2px solid #83c5be;
-    border-radius: 25px;
-    outline: none;
-  }
-  
-  .email-form button {
-    background-color: #006d77;
-    color: #ffffff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-  }
-  
-  .email-form button:hover {
-    background-color: #005461;
-  }
-  
-  .close-popup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5em;
-    color: #006d77;
-    cursor: pointer;
-  }
-  
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ocupa toda a largura da janela */
+  height: 100vh; /* Ocupa toda a altura da janela */
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Conteúdo do popup */
+.email-popup-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative; /* Para posicionar o botão de fechar */
+}
+
+.email-popup h2 {
+  color: #006d77;
+  margin-bottom: 20px;
+}
+
+.email-form input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 1em;
+  border: 2px solid #83c5be;
+  border-radius: 25px;
+  outline: none;
+}
+
+.email-form button {
+  background-color: #006d77;
+  color: #ffffff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.email-form button:hover {
+  background-color: #005461;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  color: #006d77;
+  cursor: pointer;
+}
