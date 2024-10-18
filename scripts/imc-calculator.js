@@ -66,40 +66,41 @@ const emailForm = document.getElementById('emailForm');
 const emailInput = document.getElementById('emailInput');
 
 // Função para centralizar o popup sobre o botão
-function centralizePopup() {
-  if (!openPopupButton || !emailPopup) return; // Verifica se os elementos existem
+// function centralizePopup() {
+//   // if (!openPopupButton || !emailPopup) return; // Verifica se os elementos existem
 
-  const buttonRect = openPopupButton.getBoundingClientRect();
-  const popupRect = emailPopup.getBoundingClientRect();
+//   const buttonRect = openPopupButton.getBoundingClientRect();
+//   const popupRect = emailPopup.getBoundingClientRect();
 
-  const top = buttonRect.top + window.scrollY - popupRect.height / 2 + buttonRect.height / 2;
-  const left = buttonRect.left + window.scrollX - popupRect.width / 2 + buttonRect.width / 2;
+//   const top = buttonRect.top + window.scrollY - popupRect.height / 2 + buttonRect.height / 2;
+//   const left = buttonRect.left + window.scrollX - popupRect.width / 2 + buttonRect.width / 2;
 
-  emailPopup.style.top = `${top}px`;
-  emailPopup.style.left = `${left}px`;
-}
+//   emailPopup.style.top = `${top}px`;
+//   emailPopup.style.left = `${left}px`;
+// }
 
 // Exibe o popup
 openPopupButton?.addEventListener('click', () => {
-  centralizePopup(); // Centraliza o popup
-  emailPopup.style.display = 'flex';
+  // centralizePopup(); // Centraliza o popup
+  popupOverlay.style.display = 'flex';
+  emailPopup.style.display = 'block';
 });
 
 // Fecha o popup ao clicar no botão de fechar
 closePopupButton?.addEventListener('click', () => {
-  emailPopup.style.display = 'none';
+  popupOverlay.style.display = 'none';
 });
 
 // Fecha o popup ao clicar fora do conteúdo
 popupOverlay?.addEventListener('click', (event) => {
   if (event.target === popupOverlay) {
-    emailPopup.style.display = 'none';
+    popupOverlay.style.display = 'none';
   }
 });
 
 // Recalcula a posição do popup ao redimensionar a janela
 window.addEventListener('resize', () => {
-  if (emailPopup.style.display === 'flex') {
+  if (popupOverlay.style.display === 'flex') {
     centralizePopup();
   }
 });

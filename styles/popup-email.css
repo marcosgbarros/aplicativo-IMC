@@ -1,15 +1,24 @@
 /* Estilos para o popup de e-mail */
 .email-popup {
-  display: none;
+  /* display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw; /* Ocupa toda a largura da janela */
-  height: 100vh; /* Ocupa toda a altura da janela */
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
-  z-index: 1000;
+  /* height: 100vh; /* Ocupa toda a altura da janela */
+  /* background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+  /* z-index: 1000;
   justify-content: center;
-  align-items: center;
+  align-items: center; */ */ */ */
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
 }
 
 /* Conteúdo do popup */
@@ -21,7 +30,7 @@
   max-width: 400px;
   width: 90%;
   text-align: center;
-  position: relative; /* Para posicionar o botão de fechar */
+  position: relative;
 }
 
 .email-popup h2 {
@@ -61,4 +70,17 @@
   font-size: 1.5em;
   color: #006d77;
   cursor: pointer;
+}
+
+.email-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
