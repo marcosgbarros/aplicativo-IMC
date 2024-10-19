@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 
+// Handler da Netlify para chamadas ao ChatGPT
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
@@ -29,8 +30,10 @@ export const handler = async (event) => {
       };
     }
 
+    // Inicializa a API do OpenAI
     const openai = new OpenAI({ apiKey });
 
+    // Faz a requisição para a API OpenAI
     const completion = await openai.chat.completions.create({
       model: model || 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: prompt }],
@@ -47,17 +50,6 @@ export const handler = async (event) => {
     }
 
     console.log('Resposta do OpenAI:', content);
-
-    // Se houver e-mail e PDF, enviar o e-mail
-    if (email && pdfBase64) {
-      const result = await sendEmailWithPDF(email, pdfBase64, tipoPlano, nome);
-      if (!result.success) {
-        return {
-          statusCode: 500,
-          body: JSON.stringify({ error: 'Erro ao enviar o email.' }),
-        };
-      }
-    }
 
     return {
       statusCode: 200,
