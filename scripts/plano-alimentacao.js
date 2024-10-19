@@ -111,6 +111,7 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
   const allergies = document.getElementById('allergies').value;
 
   // Salvar os dados no localStorage
+  localStorage.setItem('name', name);
   localStorage.setItem('age', age);
   localStorage.setItem('sex', sex);
   localStorage.setItem('imc', imc);
