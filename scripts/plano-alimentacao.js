@@ -165,7 +165,7 @@ if (plan && Array.isArray(plan)) {
 });
 
 // Função para gerar e baixar o PDF
-function generateAndDownloadPDF(plan) {
+function generatePDFBase64(plan) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({
     orientation: 'portrait',

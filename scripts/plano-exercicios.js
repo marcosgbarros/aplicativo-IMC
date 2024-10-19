@@ -165,7 +165,7 @@ document.getElementById('exerciseForm').addEventListener('submit', async functio
 });
 
 // Função para gerar e baixar o PDF do plano de exercícios
-function generateAndDownloadExercisePDF(plan) {
+function generatePDFBase64(plan) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({
     orientation: 'portrait',
