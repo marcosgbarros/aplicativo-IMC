@@ -61,6 +61,31 @@ function extractJsonFromResponse(response) {
   }
 }
 
+// Função para enviar o email com o PDF anexo
+async function sendEmail(emailSend, pdfBase64, tipoPlano, nome) {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: emailSend,
+        pdfBase64: pdfBase64,
+        tipoPlano: tipoPlano,
+        nome: nome,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Email enviado com sucesso!');
+    } else {
+      const errorText = await response.text();
+      console.error('Erro ao enviar email:', errorText);
+    }
+  } catch (error) {
+    console.error('Erro na requisição de envio de email:', error);
+  }
+}
+
 // Adiciona um evento de envio ao formulário
 document.getElementById('exerciseForm').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -80,6 +105,7 @@ document.getElementById('exerciseForm').addEventListener('submit', async functio
   }
  
   // Recupera os valores do localStorage
+  const name = localStorage.getItem('name');
   const imc = localStorage.getItem('imc');
   const age = localStorage.getItem('age');
   const sex = localStorage.getItem('sex');
@@ -115,6 +141,9 @@ document.getElementById('exerciseForm').addEventListener('submit', async functio
     }
   ]`;
 
+  //pega email do localStorage
+  const email = localStorage.getItem('userEmail');
+
   // Enviar o prompt para a API do ChatGPT e exibir a resposta
   const model = "gpt-4o-mini";
   const chatGPTResponse = await sendToChatGPT(prompt, model);
@@ -124,9 +153,12 @@ document.getElementById('exerciseForm').addEventListener('submit', async functio
 
   // Verifica se o plano foi extraído corretamente
   if (plan && Array.isArray(plan)) {
-    generateAndDownloadExercisePDF(plan);
+    const tipoPlano = 'exercicio'; 
+    const pdfBase64 = await generatePDFBase64(plan);
+
+    await sendEmail(email, pdfBase64, tipoPlano, name);
   } else {
-    console.error('Erro ao processar o plano de exercícios:', plan);
+    console.error('Erro ao processar o plano alimentar:', plan);
   }
 
   // Esconde a ampulheta e mostra o botão de envio novamente
@@ -169,12 +201,16 @@ function generateAndDownloadExercisePDF(plan) {
     },
   });
 
-  doc.save('plano_exercicios_personalizado.pdf');
-
   // Exibir a mensagem de agradecimento após o download
   const thankYouMessage = document.getElementById('thankYouMessage');
   if (thankYouMessage) {
     thankYouMessage.style.display = 'block';
   }
+
+   // Retorna o PDF em Base64
+   return new Promise((resolve) => {
+    const pdfBase64 = doc.output('dataurlstring').split(',')[1]; // Remove prefixo
+    resolve(pdfBase64);
+  });
 }
 

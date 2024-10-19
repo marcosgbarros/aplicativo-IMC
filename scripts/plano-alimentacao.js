@@ -64,6 +64,31 @@ function extractJsonFromResponse(response) {
   }
 }
 
+// Função para enviar o email com o PDF anexo
+async function sendEmail(emailSend, pdfBase64, tipoPlano, nome) {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: emailSend,
+        pdfBase64: pdfBase64,
+        tipoPlano: tipoPlano,
+        nome: nome,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Email enviado com sucesso!');
+    } else {
+      const errorText = await response.text();
+      console.error('Erro ao enviar email:', errorText);
+    }
+  } catch (error) {
+    console.error('Erro na requisição de envio de email:', error);
+  }
+}
+
 // Adiciona um evento de envio ao formulário
 document.getElementById('nutritionForm').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -115,6 +140,9 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
     ...
   ]`;
 
+   //pega email do localStorage
+   const email = localStorage.getItem('userEmail');
+
   // Enviar o prompt para a API do ChatGPT e exibir a resposta
   const model = "gpt-3.5-turbo";
   const chatGPTResponse = await sendToChatGPT(prompt, model);
@@ -122,13 +150,15 @@ document.getElementById('nutritionForm').addEventListener('submit', async functi
   // Extrair o plano alimentar em formato JSON
   const plan = extractJsonFromResponse(chatGPTResponse);
 
-  // Verifica se o plano foi extraído corretamente
-  if (plan && Array.isArray(plan)) {
-    // Gerar e baixar o PDF diretamente
-    generateAndDownloadPDF(plan);
-  } else {
-    console.error('Erro ao processar o plano alimentar:', plan);
-  }
+ // Verifica se o plano foi extraído corretamente
+if (plan && Array.isArray(plan)) {
+  const tipoPlano = 'alimentar'; 
+  const pdfBase64 = await generatePDFBase64(plan);
+
+  await sendEmail(email, pdfBase64, tipoPlano, name);
+} else {
+  console.error('Erro ao processar o plano alimentar:', plan);
+}
 
   // Esconde a ampulheta e mostra o botão de exercícios após a criação do plano
   loadingDiv.style.display = 'none';
@@ -174,12 +204,15 @@ function generateAndDownloadPDF(plan) {
     }
   });
 
-  // Salvar o PDF automaticamente
-  doc.save('plano_alimentar_personalizado.pdf');
-
    // Exibir a mensagem de agradecimento após o download
    const thankYouMessage = document.getElementById('thankYouMessage');
    if (thankYouMessage) {
      thankYouMessage.style.display = 'block';
    }
+
+   // Retorna o PDF em Base64
+   return new Promise((resolve) => {
+    const pdfBase64 = doc.output('dataurlstring').split(',')[1]; // Remove prefixo
+    resolve(pdfBase64);
+  });
 }
