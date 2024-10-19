@@ -20,7 +20,7 @@ export const handler = async (event) => {
       };
     }
 
-    const { prompt, model } = JSON.parse(event.body);
+    const { prompt, model, email, pdfBase64, tipoPlano, nome } = JSON.parse(event.body);
 
     if (!prompt) {
       console.error('Prompt não fornecido.');
@@ -48,6 +48,18 @@ export const handler = async (event) => {
     }
 
     console.log('Resposta do OpenAI:', content);
+
+    // Se houver e-mail e PDF, enviar o e-mail
+    if (email && pdfBase64) {
+      const result = await sendEmailWithPDF(email, pdfBase64, tipoPlano, nome);
+      if (!result.success) {
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: 'Erro ao enviar o email.' }),
+        };
+      }
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify({ response: content }),
@@ -59,18 +71,18 @@ export const handler = async (event) => {
       body: JSON.stringify({ error: 'Erro ao processar o plano alimentar.' }),
     };
   }
-}
+};
 
 // Configuração do transporte SMTP usando Gmail
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'imc.calculator.app@gmail.com', // Seu email Gmail
+    user: 'imc.calculator.app@gmail.com',
     pass: 'tekh oxut jmka qgvy', // Senha de App gerada
   },
 });
 
-// Função para enviar o email com o PDF como anexo
+// Função para enviar o e-mail com o PDF como anexo
 async function sendEmailWithPDF(emailSend, pdfBase64, tipoPlano, nome) {
   const assunto = tipoPlano === 'alimentar' 
     ? 'Plano Alimentar Personalizado' 
@@ -88,10 +100,7 @@ async function sendEmailWithPDF(emailSend, pdfBase64, tipoPlano, nome) {
     from: 'imc.calculator.app@gmail.com',
     to: emailSend,
     subject: assunto,
-    html: `
-      <p>Olá, ${nome}!</p>
-      <p>${mensagem}</p>
-    `,
+    html: `<p>Olá, ${nome}!</p><p>${mensagem}</p>`,
     attachments: [
       {
         filename: nomeArquivo,
@@ -110,16 +119,3 @@ async function sendEmailWithPDF(emailSend, pdfBase64, tipoPlano, nome) {
     return { success: false, message: 'Erro ao enviar o email.' };
   }
 }
-
-
-// Rota POST para enviar email com o PDF
-app.post('/api/send-email', async (req, res) => {
-  const { email, pdfBase64, tipoPlano, nome } = req.body;
-
-  const result = await sendEmailWithPDF(email, pdfBase64, tipoPlano, nome);
-  if (result.success) {
-    res.status(200).json(result);
-  } else {
-    res.status(500).json(result);
-  }
-});
