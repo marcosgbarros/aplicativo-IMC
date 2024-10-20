@@ -1,6 +1,6 @@
 /* Estilos do Menu Sanduíche */
 .menu-icon {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     cursor: pointer;
@@ -18,7 +18,7 @@
   .sidebar {
     height: 100%;
     width: 0;
-    position: absolute;
+    position: fixed;
     z-index: 999;
     top: 0;
     right: 0;
