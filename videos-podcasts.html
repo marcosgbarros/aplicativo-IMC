@@ -3,12 +3,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(45deg, #43cea2, #185a9d);
-    margin: 0;
-    padding: 20px;
-    line-height: 1.6;
-  }
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(45deg, #43cea2, #185a9d);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+}
   .container {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
@@ -134,11 +138,65 @@ h1 {
     color: #006d77;
   }
 
+   /* Estilos do Menu Sanduíche */
+.menu-icon {
+    position: fixed;
+    top: 35px;
+    right: 40px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .menu-icon div {
+    width: 35px;
+    height: 5px;
+    background-color: #185a9d;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  
+  .sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    background-color: #185a9d;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border-radius: 20px 0 0 20px;
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #ffffff;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+  }
 
 </style>
 </head>
 <body>
   <div class="container">
+
+    <div id="menu-container"></div>
     <h1>Vídeos e Podcasts sobre Saúde</h1>
     <div class="search-filter-container">
       <div class="search-bar">
@@ -278,6 +336,41 @@ h1 {
           filterContent();
         });
       });
+      function loadMenu() {
+    const menuContainer = document.getElementById('menu-container');
+
+    // Certifique-se de que o contêiner existe
+    if (menuContainer) {
+        // Carrega o conteúdo do menu
+        menuContainer.innerHTML = `
+            <div class="menu-icon" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="mySidebar" class="sidebar">
+                <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
+                <a href="index.html">Início</a>
+                <a href="videos-podcasts.html">Vídeos e Podcasts</a>
+                <a href="receitas.html">Receitas Saudáveis</a>
+            </div>
+        `;
+
+        // Define a função toggleMenu após carregar o menu
+        window.toggleMenu = function() {
+            const sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        };
+    }
+}
+
+// Carrega o menu quando a página estiver pronta
+document.addEventListener('DOMContentLoaded', loadMenu);
+
 
     });
   </script>
