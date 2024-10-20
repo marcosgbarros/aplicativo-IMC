@@ -1,0 +1,375 @@
+<html><head><title>Vídeos e Podcasts Educativos sobre Saúde e Exercícios</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e6f3f0;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    color: #006d77;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+  }
+  .search-filter-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+    margin-bottom: 30px;
+  }
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #83c5be;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-input:focus {
+    border-color: #006d77;
+  }
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .filter-btn {
+    background-color: #83c5be;
+    color: #006d77;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+  .filter-btn:hover {
+    background-color: #006d77;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+  .filter-btn.active {
+    background-color: #006d77;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 100, 119, 0.2);
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  .content-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 100, 119, 0.15);
+  }
+  .content-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .content-info {
+    padding: 20px;
+  }
+  .content-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #006d77;
+  }
+  .content-description {
+    font-size: 0.9em;
+    color: #4a4a4a;
+    margin-bottom: 15px;
+  }
+  .content-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .content-tag {
+    background-color: #e0f3f1;
+    color: #006d77;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+  .content-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #006d77;
+  }
+
+  /* Estilos para o popup de e-mail */
+  .email-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  .email-popup-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+  .email-popup h2 {
+    color: #006d77;
+    margin-bottom: 20px;
+  }
+  .email-form input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    border: 2px solid #83c5be;
+    border-radius: 25px;
+    outline: none;
+  }
+  .email-form button {
+    background-color: #006d77;
+    color: #ffffff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+  }
+  .email-form button:hover {
+    background-color: #005461;
+  }
+  .close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    color: #006d77;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vídeos e Podcasts Educativos sobre Saúde e Exercícios</h1>
+    <div class="search-filter-container">
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por título ou tema...">
+      </div>
+      <div class="filter-options">
+        <button class="filter-btn" data-filter="video">Vídeos</button>
+        <button class="filter-btn" data-filter="podcast">Podcasts</button>
+        <button class="filter-btn" data-filter="exercicios">Exercícios</button>
+        <button class="filter-btn" data-filter="nutricao">Nutrição</button>
+        <button class="filter-btn" data-filter="bem-estar">Bem-estar</button>
+      </div>
+    </div>
+    <div class="content-grid" id="contentGrid">
+      <!-- Conteúdo será inserido aqui dinamicamente -->
+    </div>
+  </div>
+
+  <!-- Popup de coleta de e-mail -->
+  <div class="email-popup" id="emailPopup">
+    <div class="email-popup-content">
+      <span class="close-popup" id="closePopup">&times;</span>
+      <h2>Receba nossas novidades!</h2>
+      <p>Inscreva-se para receber conteúdo exclusivo sobre saúde e bem-estar.</p>
+      <form class="email-form" id="emailForm">
+        <input type="email" id="emailInput" placeholder="Seu melhor e-mail" required>
+        <button type="submit">Inscrever-se</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const content = [
+      {
+        id: 1,
+        title: "Técnicas de Respiração para Meditação",
+        type: "video",
+        thumbnail: "https://source.unsplash.com/random/800x600?meditation",
+        description: "Aprenda técnicas simples de respiração para melhorar sua prática de meditação.",
+        tags: ["bem-estar", "meditação"]
+      },
+      {
+        id: 2,
+        title: "Alimentação Pré e Pós-Treino",
+        type: "podcast",
+        thumbnail: "https://source.unsplash.com/random/800x600?healthy+food",
+        description: "Descubra o que comer antes e depois dos exercícios para maximizar seus resultados.",
+        tags: ["nutricao", "exercicios"]
+      },
+      {
+        id: 3,
+        title: "Treino HIIT para Iniciantes",
+        type: "video",
+        thumbnail: "https://source.unsplash.com/random/800x600?hiit",
+        description: "Um treino de alta intensidade adaptado para quem está começando a se exercitar.",
+        tags: ["exercicios", "bem-estar"]
+      },
+      {
+        id: 4,
+        title: "Mindfulness no Dia a Dia",
+        type: "podcast",
+        thumbnail: "https://source.unsplash.com/random/800x600?mindfulness",
+        description: "Como incorporar práticas de atenção plena na sua rotina diária.",
+        tags: ["bem-estar"]
+      },
+      {
+        id: 5,
+        title: "Alongamentos para Aliviar Dores nas Costas",
+        type: "video",
+        thumbnail: "https://source.unsplash.com/random/800x600?stretching",
+        description: "Sequência de alongamentos para quem passa muito tempo sentado.",
+        tags: ["exercicios", "bem-estar"]
+      },
+      {
+        id: 6,
+        title: "Mitos e Verdades sobre Dietas",
+        type: "podcast",
+        thumbnail: "https://source.unsplash.com/random/800x600?diet",
+        description: "Especialistas discutem os mitos mais comuns sobre alimentação e dietas.",
+        tags: ["nutricao"]
+      },
+      {
+        id: 7,
+        title: "Yoga para Relaxamento",
+        type: "video",
+        thumbnail: "https://source.unsplash.com/random/800x600?yoga",
+        description: "Uma prática suave de yoga para reduzir o estresse e melhorar o sono.",
+        tags: ["exercicios", "bem-estar"]
+      },
+      {
+        id: 8,
+        title: "Cuidados com a Saúde Mental",
+        type: "podcast",
+        thumbnail: "https://source.unsplash.com/random/800x600?mental+health",
+        description: "Conversa sobre a importância da saúde mental e dicas para cuidar da sua.",
+        tags: ["bem-estar"]
+      }
+    ];
+
+    function createContentCard(item) {
+      const card = document.createElement('div');
+      card.className = 'content-card';
+      card.innerHTML = `
+        <img src="${item.thumbnail}" alt="${item.title}" class="content-thumbnail">
+        <div class="content-info">
+          <h2 class="content-title">${item.title}</h2>
+          <p class="content-description">${item.description}</p>
+          <div class="content-tags">
+            ${item.tags.map(tag => `<span class="content-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+        <span class="content-type">${item.type === 'video' ? '🎥 Vídeo' : '🎙️ Podcast'}</span>
+      `;
+      return card;
+    }
+
+    function renderContent(filteredContent) {
+      const grid = document.getElementById('contentGrid');
+      grid.innerHTML = '';
+      filteredContent.forEach(item => {
+        const card = createContentCard(item);
+        grid.appendChild(card);
+      });
+    }
+
+    function filterContent() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active')).map(btn => btn.dataset.filter);
+
+      const filteredContent = content.filter(item => {
+        const titleMatch = item.title.toLowerCase().includes(searchTerm);
+        const descriptionMatch = item.description.toLowerCase().includes(searchTerm);
+        const tagMatch = activeFilters.length === 0 || activeFilters.some(filter => item.tags.includes(filter) || item.type === filter);
+        return (titleMatch || descriptionMatch) && tagMatch;
+      });
+
+      renderContent(filteredContent);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderContent(content);
+      
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', filterContent);
+
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.classList.toggle('active');
+          filterContent();
+        });
+      });
+
+      // Funções para o popup de e-mail
+      const emailPopup = document.getElementById('emailPopup');
+      const closePopup = document.getElementById('closePopup');
+      const emailForm = document.getElementById('emailForm');
+
+      // Mostrar o popup após 5 segundos
+      setTimeout(() => {
+        emailPopup.style.display = 'flex';
+      }, 5000);
+
+      closePopup.addEventListener('click', () => {
+        emailPopup.style.display = 'none';
+      });
+
+      emailForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value;
+        // Aqui você pode adicionar a lógica para enviar o e-mail para seu servidor
+        console.log('E-mail inscrito:', email);
+        alert('Obrigado por se inscrever!');
+        emailPopup.style.display = 'none';
+      });
+
+      // Fechar o popup se clicar fora dele
+      window.addEventListener('click', (e) => {
+        if (e.target === emailPopup) {
+          emailPopup.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body></html>

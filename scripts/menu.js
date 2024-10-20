@@ -13,8 +13,8 @@ function loadMenu() {
             <div id="mySidebar" class="sidebar">
                 <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
                 <a href="index.html">Início</a>
-                <a href="#">Vídeos e Podcasts</a>
-                <a href="#">Receitas Saudáveis</a>
+                <a href="videos-podcasts.html">Vídeos e Podcasts</a>
+                <a href="receitas.html">Receitas Saudáveis</a>
             </div>
         `;
 
