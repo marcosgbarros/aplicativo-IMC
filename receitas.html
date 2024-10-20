@@ -11,20 +11,18 @@
       font-family: 'Arial', sans-serif;
       background-color: #e6f3f0;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       line-height: 1.6;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
     }
 
     h1 {
       text-align: center;
       color: #006d77;
-      margin-top: 80px; /* Compensar o menu fixo */
       margin-bottom: 30px;
       font-size: 2.5em;
     }
@@ -32,25 +30,22 @@
     /* Estilos do Menu Flutuante */
     #menu-container {
       position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: #185a9d;
+      top: 20px;
+      right: 20px;
       z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .menu-icon {
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
     }
 
     .menu-icon div {
       width: 35px;
       height: 5px;
-      background-color: #fff;
+      background-color: #185a9d;
       margin: 6px 0;
       transition: 0.4s;
     }
@@ -66,6 +61,7 @@
       transition: 0.5s;
       padding-top: 60px;
       border-radius: 20px 0 0 20px;
+      z-index: 999;
     }
 
     .sidebar a {
@@ -84,7 +80,7 @@
     .sidebar .closebtn {
       position: absolute;
       top: 10px;
-      left: 0px;
+      left: 10px;
       font-size: 36px;
       color: #fff;
       cursor: pointer;
@@ -101,13 +97,13 @@
 </head>
 
 <body>
+  <!-- Menu Flutuante -->
   <div id="menu-container">
     <div class="menu-icon" onclick="toggleMenu()">
       <div></div>
       <div></div>
       <div></div>
     </div>
-    <h2 style="color: white;">Receitas Saudáveis</h2>
   </div>
 
   <div id="mySidebar" class="sidebar">
@@ -117,6 +113,7 @@
     <a href="receitas.html">Receitas Saudáveis</a>
   </div>
 
+  <!-- Conteúdo Principal -->
   <div class="container">
     <h1>Catálogo de Receitas Saudáveis</h1>
     <div class="search-filter-container">
@@ -137,6 +134,7 @@
   </div>
 
   <script>
+    // Função para abrir/fechar o menu lateral
     function toggleMenu() {
       const sidebar = document.getElementById("mySidebar");
       sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
