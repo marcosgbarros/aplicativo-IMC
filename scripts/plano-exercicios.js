@@ -120,6 +120,7 @@ document.getElementById('exerciseForm').addEventListener('submit', async functio
 
   // Construir o prompt para a geração de um plano de exercícios personalizado
   const prompt = `Crie um plano de exercícios em formato JSON de 7 dias para uma pessoa com as seguintes características:
+  se for musculação, fazer serie de 6 exercícios por dia seguindo a regra de treino. traga nomes em inglês para o português caso nao sejam conhecidos.
   - Idade: ${age}
   - Sexo: ${sex}
   - IMC: ${imc}
