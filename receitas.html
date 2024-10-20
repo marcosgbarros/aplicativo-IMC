@@ -1,146 +1,122 @@
-<html><head><base href="https://healthy-recipes-catalog.websim.ai/"><title>Catálogo de Receitas Saudáveis</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #e6f3f0;
-    margin: 0;
-    padding: 20px;
-    line-height: 1.6;
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  h1 {
-    text-align: center;
-    color: #006d77;
-    margin-bottom: 30px;
-    font-size: 2.5em;
-  }
-  .search-filter-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
-    margin-bottom: 30px;
-  }
-  .search-bar {
-    margin-bottom: 20px;
-  }
-  .search-input {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    border: 2px solid #83c5be;
-    border-radius: 25px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  .search-input:focus {
-    border-color: #006d77;
-  }
-  .filter-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  .filter-btn {
-    background-color: #83c5be;
-    color: #006d77;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-  }
-  .filter-btn:hover {
-    background-color: #006d77;
-    color: #ffffff;
-    transform: translateY(-2px);
-  }
-  .filter-btn.active {
-    background-color: #006d77;
-    color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 100, 119, 0.2);
-  }
-  .recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-  }
-  .recipe-card {
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-  .recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 100, 119, 0.15);
-  }
-  .recipe-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  .recipe-info {
-    padding: 20px;
-  }
-  .recipe-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0 0 10px 0;
-    color: #006d77;
-  }
-  .recipe-calories {
-    font-size: 0.9em;
-    color: #4a4a4a;
-    margin-bottom: 15px;
-  }
-  .recipe-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 10px;
-  }
-  .recipe-tag {
-    background-color: #e0f3f1;
-    color: #006d77;
-    font-size: 0.8em;
-    padding: 5px 10px;
-    border-radius: 15px;
-  }
-  .recipe-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-  }
-  .like-btn, .save-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5em;
-    transition: transform 0.3s ease;
-  }
-  .like-btn:hover, .save-btn:hover {
-    transform: scale(1.2);
-  }
-  .like-btn.active {
-    color: #e63946;
-  }
-  .save-btn.active {
-    color: #ffd60a;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Receitas Saudáveis</title>
+
+  <style>
+    /* Estilos Gerais */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e6f3f0;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #006d77;
+      margin-top: 80px; /* Compensar o menu fixo */
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+
+    /* Estilos do Menu Flutuante */
+    #menu-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #185a9d;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-icon {
+      cursor: pointer;
+    }
+
+    .menu-icon div {
+      width: 35px;
+      height: 5px;
+      background-color: #fff;
+      margin: 6px 0;
+      transition: 0.4s;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      background-color: #185a9d;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      border-radius: 20px 0 0 20px;
+    }
+
+    .sidebar a {
+      padding: 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #ffffff;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidebar .closebtn {
+      position: absolute;
+      top: 10px;
+      left: 0px;
+      font-size: 36px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .search-filter-container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 100, 119, 0.1);
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
+
 <body>
+  <div id="menu-container">
+    <div class="menu-icon" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <h2 style="color: white;">Receitas Saudáveis</h2>
+  </div>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
+    <a href="index.html">Início</a>
+    <a href="videos-podcasts.html">Vídeos e Podcasts</a>
+    <a href="receitas.html">Receitas Saudáveis</a>
+  </div>
+
   <div class="container">
     <h1>Catálogo de Receitas Saudáveis</h1>
     <div class="search-filter-container">
@@ -148,7 +124,7 @@
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nome da receita ou ingrediente...">
       </div>
       <div class="filter-options">
-        <button class="filter-btn" data-filter="sem-carne">Sem Carne</button>
+        <button class="filter-btn" data-filter="sem-carne">Vegetariana</button>
         <button class="filter-btn" data-filter="vegana">Vegana</button>
         <button class="filter-btn" data-filter="sem-lactose">Sem Lactose</button>
         <button class="filter-btn" data-filter="sem-acucar">Sem Açúcar</button>
@@ -161,138 +137,36 @@
   </div>
 
   <script>
-    const recipes = [
-      {
-        id: 1,
-        title: "Salada de Quinoa com Legumes",
-        image: "https://source.unsplash.com/random/800x600?quinoa+salad",
-        calories: 280,
-        tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["quinoa", "tomate", "pepino", "cenoura", "azeite"]
-      },
-      {
-        id: 2,
-        title: "Smoothie Verde Energético",
-        image: "https://source.unsplash.com/random/800x600?green+smoothie",
-        calories: 150,
-        tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["espinafre", "banana", "maçã", "chia", "água de coco"]
-      },
-      {
-        id: 3,
-        title: "Omelete de Claras com Espinafre",
-        image: "https://source.unsplash.com/random/800x600?egg+white+omelette",
-        calories: 200,
-        tags: ["sem-carne", "sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["claras de ovo", "espinafre", "tomate", "cebola", "azeite"]
-      },
-      {
-        id: 4,
-        title: "Bowl de Açaí com Frutas",
-        image: "https://source.unsplash.com/random/800x600?acai+bowl",
-        calories: 320,
-        tags: ["sem-carne", "vegana", "sem-lactose", "sem-gluten"],
-        ingredients: ["açaí", "banana", "morango", "granola sem glúten", "mel"]
-      },
-      {
-        id: 5,
-        title: "Salmão Grelhado com Aspargos",
-        image: "https://source.unsplash.com/random/800x600?grilled+salmon",
-        calories: 380,
-        tags: ["sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["salmão", "aspargos", "limão", "azeite", "ervas"]
-      },
-      {
-        id: 6,
-        title: "Wrap de Alface com Homus",
-        image: "https://source.unsplash.com/random/800x600?lettuce+wrap",
-        calories: 220,
-        tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["folhas de alface", "homus", "tomate", "pepino", "cenoura"]
-      },
-      {
-        id: 7,
-        title: "Pudim de Chia com Frutas Vermelhas",
-        image: "https://source.unsplash.com/random/800x600?chia+pudding",
-        calories: 180,
-        tags: ["sem-carne", "vegana", "sem-lactose", "sem-gluten"],
-        ingredients: ["sementes de chia", "leite de amêndoas", "framboesas", "amoras", "mel"]
-      },
-      {
-        id: 8,
-        title: "Frango Grelhado com Legumes Assados",
-        image: "https://source.unsplash.com/random/800x600?grilled+chicken",
-        calories: 350,
-        tags: ["sem-lactose", "sem-acucar", "sem-gluten"],
-        ingredients: ["peito de frango", "abobrinha", "pimentão", "cebola roxa", "alecrim"]
-      }
-    ];
-
-    function createRecipeCard(recipe) {
-      const card = document.createElement('div');
-      card.className = 'recipe-card';
-      card.innerHTML = `
-        <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
-        <div class="recipe-info">
-          <h2 class="recipe-title">${recipe.title}</h2>
-          <p class="recipe-calories">${recipe.calories} calorias</p>
-          <div class="recipe-tags">
-            ${recipe.tags.map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}
-          </div>
-          <div class="recipe-actions">
-            <button class="like-btn" title="Curtir">❤️</button>
-            <button class="save-btn" title="Salvar como favorita">🔖</button>
-          </div>
-        </div>
-      `;
-      return card;
-    }
-
-    function renderRecipes(filteredRecipes) {
-      const grid = document.getElementById('recipeGrid');
-      grid.innerHTML = '';
-      filteredRecipes.forEach(recipe => {
-        const card = createRecipeCard(recipe);
-        grid.appendChild(card);
-      });
-    }
-
-    function filterRecipes() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active')).map(btn => btn.dataset.filter);
-
-      const filteredRecipes = recipes.filter(recipe => {
-        const titleMatch = recipe.title.toLowerCase().includes(searchTerm);
-        const ingredientMatch = recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchTerm));
-        const tagMatch = activeFilters.length === 0 || activeFilters.every(filter => recipe.tags.includes(filter));
-        return (titleMatch || ingredientMatch) && tagMatch;
-      });
-
-      renderRecipes(filteredRecipes);
+    function toggleMenu() {
+      const sidebar = document.getElementById("mySidebar");
+      sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderRecipes(recipes);
-      
-      const searchInput = document.getElementById('searchInput');
-      searchInput.addEventListener('input', filterRecipes);
+      const recipes = [
+        { id: 1, title: "Salada de Quinoa", image: "https://source.unsplash.com/random/800x600?quinoa", calories: 280, tags: ["vegana"] },
+        { id: 2, title: "Smoothie Verde", image: "https://source.unsplash.com/random/800x600?smoothie", calories: 150, tags: ["vegana"] },
+      ];
 
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          this.classList.toggle('active');
-          filterRecipes();
-        });
-      });
+      function createRecipeCard(recipe) {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.innerHTML = `
+          <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+          <div class="recipe-info">
+            <h2 class="recipe-title">${recipe.title}</h2>
+            <p>${recipe.calories} calorias</p>
+          </div>
+        `;
+        return card;
+      }
 
-      // Adicionar funcionalidade aos botões de curtir e salvar
-      document.getElementById('recipeGrid').addEventListener('click', (e) => {
-        if (e.target.classList.contains('like-btn')) {
-          e.target.classList.toggle('active');
-        } else if (e.target.classList.contains('save-btn')) {
-          e.target.classList.toggle('active');
-        }
+      const recipeGrid = document.getElementById('recipeGrid');
+      recipes.forEach(recipe => {
+        const card = createRecipeCard(recipe);
+        recipeGrid.appendChild(card);
       });
     });
   </script>
-</body></html>
+</body>
+</html>

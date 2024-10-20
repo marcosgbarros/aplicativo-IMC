@@ -133,7 +133,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Vídeos e Podcasts Educativos sobre Saúde e Exercícios</h1>
+    <h1>Vídeos e Podcasts sobre Saúde</h1>
     <div class="search-filter-container">
       <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar por título ou tema...">
@@ -273,35 +273,6 @@
         });
       });
 
-      // Funções para o popup de e-mail
-      const emailPopup = document.getElementById('emailPopup');
-      const closePopup = document.getElementById('closePopup');
-      const emailForm = document.getElementById('emailForm');
-
-      // Mostrar o popup após 5 segundos
-      setTimeout(() => {
-        emailPopup.style.display = 'flex';
-      }, 5000);
-
-      closePopup.addEventListener('click', () => {
-        emailPopup.style.display = 'none';
-      });
-
-      emailForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('emailInput').value;
-        // Aqui você pode adicionar a lógica para enviar o e-mail para seu servidor
-        console.log('E-mail inscrito:', email);
-        alert('Obrigado por se inscrever!');
-        emailPopup.style.display = 'none';
-      });
-
-      // Fechar o popup se clicar fora dele
-      window.addEventListener('click', (e) => {
-        if (e.target === emailPopup) {
-          emailPopup.style.display = 'none';
-        }
-      });
     });
   </script>
 </body></html>
