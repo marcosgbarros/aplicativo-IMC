@@ -1,6 +1,6 @@
 import { db, collection, getDocs } from "../firebase-config";
 
-export async function getRecipes() {
+export async function getRecipe() {
   try {
     const querySnapshot = await getDocs(collection(db, "recipes"));
     const recipes = [];
@@ -13,7 +13,7 @@ export async function getRecipes() {
   }
 }
 
-export async function getRecipes(recipeId){
+export async function getRecipe(recipeId){
     try {
         console.log(recipeId);
     } catch(e) {
