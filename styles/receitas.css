@@ -99,7 +99,7 @@ body {
     .recipe-info {
       padding: 20px;
     }
-    .recipe-title {
+    .mainTitle {
       font-size: 1.2em;
       font-weight: bold;
       margin: 0 0 10px 0;
@@ -199,8 +199,30 @@ body {
       cursor: pointer;
     }
 
+/* .content-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+} */
+
+.recipe-title {
+    text-align: center;    /* Centraliza o título horizontalmente */
+    font-size: 2.5em;      /* Tamanho da fonte do título */
+    color: #185a9d;        /* Cor do título */
+    margin: 20px auto;     /* Espaço ao redor do título, com centralização */
+    width: 100%;           /* Garante que o título ocupe toda a largura do container */
+    display: block;        /* Garante que o título seja tratado como um bloco completo */
+} 
+
 .recipe-details {
+      display: grid;
       text-align: center;
+      place-items: center;
 }
     
 .recipe-image-large {
