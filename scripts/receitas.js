@@ -145,7 +145,7 @@ const recipes = [
 
   function showRecipeDetails(recipe) {
     document.querySelector('.search-filter-container').style.display = 'none';
-    document.getElementById('mainTitle').style.display = 'none';
+    title = document.getElementById('mainTitle')
     
     const grid = document.getElementById('recipeGrid');
     grid.innerHTML = '';
