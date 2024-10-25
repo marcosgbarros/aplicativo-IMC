@@ -4,6 +4,7 @@ import OpenAI from 'openai';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,7 +37,8 @@ app.post('/api/chatgpt', async (req, res) => {
   }
 });
 
-// Iniciar o servidor
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+

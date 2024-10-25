@@ -1,69 +1,126 @@
 const recipes = [
-    {
-      id: 1,
-      title: "Salada de Quinoa com Legumes",
-      image: "https://source.unsplash.com/random/800x600?quinoa+salad",
-      calories: 280,
-      tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["quinoa", "tomate", "pepino", "cenoura", "azeite"]
-    },
-    {
-      id: 2,
-      title: "Smoothie Verde Energético",
-      image: "https://source.unsplash.com/random/800x600?green+smoothie",
-      calories: 150,
-      tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["espinafre", "banana", "maçã", "chia", "água de coco"]
-    },
-    {
-      id: 3,
-      title: "Omelete de Claras com Espinafre",
-      image: "https://source.unsplash.com/random/800x600?egg+white+omelette",
-      calories: 200,
-      tags: ["sem-carne", "sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["claras de ovo", "espinafre", "tomate", "cebola", "azeite"]
-    },
-    {
-      id: 4,
-      title: "Bowl de Açaí com Frutas",
-      image: "https://source.unsplash.com/random/800x600?acai+bowl",
-      calories: 320,
-      tags: ["sem-carne", "vegana", "sem-lactose", "sem-gluten"],
-      ingredients: ["açaí", "banana", "morango", "granola sem glúten", "mel"]
-    },
-    {
-      id: 5,
-      title: "Salmão Grelhado com Aspargos",
-      image: "https://source.unsplash.com/random/800x600?grilled+salmon",
-      calories: 380,
-      tags: ["sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["salmão", "aspargos", "limão", "azeite", "ervas"]
-    },
-    {
-      id: 6,
-      title: "Wrap de Alface com Homus",
-      image: "https://source.unsplash.com/random/800x600?lettuce+wrap",
-      calories: 220,
-      tags: ["sem-carne", "vegana", "sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["folhas de alface", "homus", "tomate", "pepino", "cenoura"]
-    },
-    {
-      id: 7,
-      title: "Pudim de Chia com Frutas Vermelhas",
-      image: "https://source.unsplash.com/random/800x600?chia+pudding",
-      calories: 180,
-      tags: ["sem-carne", "vegana", "sem-lactose", "sem-gluten"],
-      ingredients: ["sementes de chia", "leite de amêndoas", "framboesas", "amoras", "mel"]
-    },
-    {
-      id: 8,
-      title: "Frango Grelhado com Legumes Assados",
-      image: "https://source.unsplash.com/random/800x600?grilled+chicken",
-      calories: 350,
-      tags: ["sem-lactose", "sem-acucar", "sem-gluten"],
-      ingredients: ["peito de frango", "abobrinha", "pimentão", "cebola roxa", "alecrim"]
-    }
-  ];
+  {
+    id: 1,
+    title: "Salada de Quinoa com Legumes",
+    image: "https://images.unsplash.com/photo-1605478580693-671feda52c8d",
+    calories: 280,
+    tags: ["vegana", "vegetariana", "sem-lactose", "sem-gluten"],
+    ingredients: ["quinoa", "tomate", "pepino", "cenoura", "azeite"]
+  },
+  {
+    id: 2,
+    title: "Smoothie Verde Energético",
+    image: "https://images.unsplash.com/photo-1572441710472-68619936ebcd",
+    calories: 150,
+    tags: ["vegana", "sem-lactose", "sem-gluten", "sem-açúcar"],
+    ingredients: ["espinafre", "banana", "maçã", "chia", "água de coco"]
+  },
+  {
+    id: 3,
+    title: "Omelete de Claras com Espinafre",
+    image: "https://images.unsplash.com/photo-1546069901-eacef0df6022",
+    calories: 200,
+    tags: ["sem-gluten", "rico em proteínas"],
+    ingredients: ["claras de ovo", "espinafre", "tomate", "cebola", "azeite"]
+  },
+  {
+    id: 4,
+    title: "Bowl de Açaí com Frutas",
+    image: "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb",
+    calories: 320,
+    tags: ["vegana", "vegetariana", "sem-gluten", "sem-lactose"],
+    ingredients: ["açaí", "banana", "morango", "granola sem glúten", "mel"]
+  },
+  {
+    id: 5,
+    title: "Salmão Grelhado com Aspargos",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141",
+    calories: 380,
+    tags: ["sem-gluten", "sem-lactose", "rico em proteínas"],
+    ingredients: ["salmão", "aspargos", "limão", "azeite", "ervas"]
+  },
+  {
+    id: 6,
+    title: "Creme de Abacate com Limão",
+    image: "https://images.unsplash.com/photo-1567303312323-7ddb6b62d4d6",
+    calories: 220,
+    tags: ["vegana", "vegetariana", "sem-lactose", "sem-gluten"],
+    ingredients: ["abacate", "limão", "mel", "chia"]
+  },
+  {
+    id: 7,
+    title: "Panqueca de Aveia e Banana",
+    image: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38",
+    calories: 300,
+    tags: ["vegetariana", "sem-gluten"],
+    ingredients: ["banana", "aveia", "ovo", "canela"]
+  },
+  {
+    id: 8,
+    title: "Sopa de Abóbora com Gengibre",
+    image: "https://images.unsplash.com/photo-1576685064005-4e23ece2e4d3",
+    calories: 180,
+    tags: ["vegana", "sem-lactose", "sem-gluten"],
+    ingredients: ["abóbora", "gengibre", "alho", "azeite"]
+  },
+  {
+    id: 9,
+    title: "Wrap Integral de Frango e Vegetais",
+    image: "https://images.unsplash.com/photo-1598878721197-00d5f95f06b2",
+    calories: 320,
+    tags: ["rico em proteínas", "sem-lactose"],
+    ingredients: ["wrap integral", "frango", "alface", "tomate", "molho pesto"]
+  },
+  {
+    id: 10,
+    title: "Iogurte Natural com Frutas Vermelhas",
+    image: "https://images.unsplash.com/photo-1598515219353-d3e61b092b2e",
+    calories: 180,
+    tags: ["vegetariana", "sem-gluten"],
+    ingredients: ["iogurte natural", "morango", "amora", "mel"]
+  },
+  {
+    id: 11,
+    title: "Chips de Batata Doce Assados",
+    image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90",
+    calories: 150,
+    tags: ["vegana", "vegetariana", "sem-gluten", "sem-lactose"],
+    ingredients: ["batata doce", "azeite", "sal", "páprica"]
+  },
+  {
+    id: 12,
+    title: "Ceviche de Tilápia com Manga",
+    image: "https://images.unsplash.com/photo-1607451699541-7d6ec26415f2",
+    calories: 250,
+    tags: ["sem-lactose", "sem-gluten"],
+    ingredients: ["tilápia", "manga", "limão", "cebola roxa", "coentro"]
+  },
+  {
+    id: 13,
+    title: "Granola Caseira com Oleaginosas",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
+    calories: 350,
+    tags: ["vegana", "sem-gluten"],
+    ingredients: ["aveia", "castanha", "amêndoas", "mel"]
+  },
+  {
+    id: 14,
+    title: "Shake de Proteína com Cacau",
+    image: "https://images.unsplash.com/photo-1559561853-6e705f2aef7e",
+    calories: 200,
+    tags: ["sem-gluten", "rico em proteínas"],
+    ingredients: ["proteína em pó", "leite vegetal", "cacau", "gelo"]
+  },
+  {
+    id: 15,
+    title: "Salada Caprese com Pesto",
+    image: "https://images.unsplash.com/photo-1514516878459-9f579a8a3c08",
+    calories: 250,
+    tags: ["vegetariana", "sem-gluten"],
+    ingredients: ["tomate", "muçarela de búfala", "manjericão", "azeite", "pesto"]
+  }
+];
+
 
   function createRecipeCard(recipe) {
     const card = document.createElement('div');
