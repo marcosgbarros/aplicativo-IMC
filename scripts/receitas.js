@@ -144,25 +144,36 @@ const recipes = [
   }
 
   function showRecipeDetails(recipe) {
+    document.querySelector('.search-filter-container').style.display = 'none';
+    document.getElementById('mainTitle').style.display = 'none';
+    
     const grid = document.getElementById('recipeGrid');
     grid.innerHTML = '';
 
     const detailsDiv = document.createElement('div');
     detailsDiv.className = 'recipe-details';
     detailsDiv.innerHTML = `
-    <h2>${recipe.title}</h2>
-    <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image-large">
-     <p><strong>Calorias:</strong> ${recipe.calories} calorias</p>
-    <p><strong>Ingredientes:</strong></p>
-    <ul>
-      ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
-    </ul>
+    <span class="content-container">
+      <h1 class="recipe-title">${recipe.title}</h1>
+        <div class="recipe-content">
+          <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image-large">
+          <div class="recipe-info-container">
+            <p><strong>Calorias:</strong> ${recipe.calories} calorias</p>
+            <p><strong>Ingredientes:</strong></p>
+            <ul>
+              ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+    </span>
     <button id="backButton">Voltar</button>
     `;
 
     grid.appendChild(detailsDiv);
 
     document.getElementById('backButton').addEventListener('click', () => {
+      document.querySelector('.search-filter-container').style.display = 'block';
+    renderRecipes(recipes);
       renderRecipes(recipes);
     })
   }

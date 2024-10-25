@@ -85,6 +85,7 @@ body {
       overflow: hidden;
       transition: all 0.3s ease;
       position: relative;
+      cursor: pointer;
     }
     .recipe-card:hover {
       transform: translateY(-5px);
@@ -98,7 +99,7 @@ body {
     .recipe-info {
       padding: 20px;
     }
-    .recipe-title {
+    .mainTitle {
       font-size: 1.2em;
       font-weight: bold;
       margin: 0 0 10px 0;
@@ -198,18 +199,62 @@ body {
       cursor: pointer;
     }
 
-    .recipe-details {
+/* .content-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+} */
+
+.recipe-title {
+    text-align: center;    /* Centraliza o título horizontalmente */
+    font-size: 2.5em;      /* Tamanho da fonte do título */
+    color: #185a9d;        /* Cor do título */
+    margin: 20px auto;     /* Espaço ao redor do título, com centralização */
+    width: 100%;           /* Garante que o título ocupe toda a largura do container */
+    display: block;        /* Garante que o título seja tratado como um bloco completo */
+} 
+
+.recipe-details {
+      display: grid;
       text-align: center;
-    }
+      place-items: center;
+}
     
-    .recipe-image-large {
+.recipe-image-large {
       width: 100%;
       max-width: 600px;
       height: auto;
       margin: 20px 0;
-    }
+      object-fit: cover;
+      border-radius: 10px;
+}
+
+.recipe-content {
+  display: flex;
+  gap: 120px;
+  align-items: flex-start;
+}
+
+.recipe-info-container {
+  width: 50%;
+}
+
+.recipe-info-container ul {
+  list-style-type: disc;
+  padding-left: 20px; 
+}
+
+.recipe-info-container p {
+  margin: 10px 0;
+  font-size: 2.0em;
+}
     
-    #backButton {
+#backButton {
       background-color: #006d77;
       color: #fff;
       padding: 10px 20px;
@@ -218,8 +263,8 @@ body {
       cursor: pointer;
       margin-top: 20px;
       font-size: 1.2em;
-    }
+}
     
-    #backButton:hover {
+#backButton:hover {
       background-color: #004f4f;
-    }
+}
