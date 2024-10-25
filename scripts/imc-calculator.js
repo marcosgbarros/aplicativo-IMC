@@ -112,6 +112,6 @@ emailForm?.addEventListener('submit', (event) => {
   const email = emailInput?.value;
   if (email) {
     localStorage.setItem('userEmail', email); // Salva o e-mail no localStorage
-    window.location.assign('plano-alimentacao.html'); // Redireciona para a página desejada
+    window.location.assign('../pages/plano-alimentacao.html'); // Redireciona para a página desejada
   }
 });

@@ -129,9 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div id="mySidebar" class="sidebar">
           <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
-          <a href="index.html">Início</a>
-          <a href="videos-podcasts.html">Vídeos e Podcasts</a>
-          <a href="receitas.html">Receitas Saudáveis</a>
+          <a href="../pages/index.html">Início</a>
+          <a href="../pages/videos-podcasts.html">Vídeos e Podcasts</a>
+          <a href="../pages/receitas.html">Receitas Saudáveis</a>
         </div>
       `;
 
