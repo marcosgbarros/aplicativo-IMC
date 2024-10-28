@@ -1,9 +1,9 @@
 <html><head><title>Calculadora de IMC Interativa com Explicação</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../styles/imc-calculator.css">
-<link rel="stylesheet" href="../styles/menu.css">
-<link rel="stylesheet" href="../styles/popup-email.css">
+<link rel="stylesheet" href="/styles/imc-calculator.css">
+<link rel="stylesheet" href="/styles/menu.css">
+<link rel="stylesheet" href="/styles/popup-email.css">
 </head>
 <body>
   <div class="container"> 
@@ -13,11 +13,11 @@
     <h1>Calculadora de IMC</h1>
     <div class="input-group">
       <label for="weight">Peso (kg):</label>
-      <input type="number" id="weight" placeholder="Ex: 70" step="0.1">
+      <input type="number" id="weight" placeholder="Ex: 70" step="0.1" min="0">
     </div>
     <div class="input-group">
       <label for="height">Altura (m):</label>
-      <input type="number" id="height" step="0.01" placeholder="Ex: 1.75">
+      <input type="number" id="height" step="0.01" placeholder="Ex: 1.75" min="0">
     </div>
     <button onclick="calculateBMI()">Calcular IMC</button>
     <div id="result"></div>
@@ -52,7 +52,7 @@
       </tr>
     </table>
     <div id="info" style="display:none;">
-      <h2>Mais que uma calculadora</h2>
+      <h2>Mais que uma calculadora!</h2>
       <p>Esta não é apenas uma calculadora de IMC, mas uma ferramenta de transformação e saúde. Use-a como ponto de partida para uma jornada de bem-estar!</p>
       <button id="openPopupButton">Receber Plano Personalizado de Alimentação</button>
       <!--<button onclick="window.location.href='plano-alimentacao.html'">Receber Plano Personalizado de Alimentação</button>-->
@@ -86,6 +86,6 @@
   </div>
 </div>
 
-  <script src="../scripts/imc-calculator.js"></script>
-  <script src="../scripts/menu.js"></script>
+  <script src="/scripts/imc-calculator.js"></script>
+  <script src="/scripts/menu.js"></script>
 </body></html>
